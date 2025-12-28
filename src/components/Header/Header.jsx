@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './Header.module.css';
 
-function Header({ theme, toggleTheme, onMenuToggle, menuOpen, onNavigate }) {
+function Header({ theme, toggleTheme, onMenuToggle, menuOpen, onNavigate, onOpenQuote }) {
     const [servicesOpen, setServicesOpen] = useState(false);
 
     const handleServiceClick = (section) => {
@@ -85,7 +85,7 @@ function Header({ theme, toggleTheme, onMenuToggle, menuOpen, onNavigate }) {
                     >
                         {theme === 'light' ? '🌙' : '☀️'}
                     </button>
-                    <button className={styles.ctaButton} onClick={() => onNavigate('contact')}>
+                    <button className={styles.ctaButton} onClick={onOpenQuote}>
                         Solicitar Orçamento
                     </button>
                     

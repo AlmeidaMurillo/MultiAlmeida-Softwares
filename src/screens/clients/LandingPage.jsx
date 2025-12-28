@@ -4,15 +4,13 @@ import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Footer from '../../components/Footer/Footer';
 import CookieBanner from '../../components/CookieBanner/CookieBanner';
-import Modal from '../../components/Modal/Modal';
-import QuoteForm from '../../components/QuoteForm/QuoteForm';
+import QuoteModal from '../../components/QuoteModal/QuoteModal';
 
 function LandingPage({ theme, toggleTheme }) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
-        // Controla o scroll do body quando o sidebar está aberto
         if (menuOpen) {
             document.body.classList.add('sidebar-open');
         } else {
@@ -36,6 +34,14 @@ function LandingPage({ theme, toggleTheme }) {
         setMenuOpen(false);
     };
 
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
     return (
         <div className={styles.landingContainer}>
             {/* Header */}
@@ -45,6 +51,7 @@ function LandingPage({ theme, toggleTheme }) {
                 onMenuToggle={handleMenuToggle}
                 menuOpen={menuOpen}
                 onNavigate={scrollToSection}
+                onOpenQuote={handleOpenModal}
             />
 
             {/* Sidebar */}
@@ -67,7 +74,7 @@ function LandingPage({ theme, toggleTheme }) {
                             que impulsionam seu negócio para o próximo nível.
                         </p>
                         <div className={styles.heroButtons}>
-                            <button onClick={() => setQuoteModalOpen(true)} className={styles.primaryBtn}>
+                            <button onClick={handleOpenModal} className={styles.primaryBtn}>
                                 Solicitar Orçamento
                             </button>
                             <button onClick={() => scrollToSection('services')} className={styles.secondaryBtn}>
@@ -269,7 +276,7 @@ function LandingPage({ theme, toggleTheme }) {
                                     <div className={styles.statLabel}>Clientes Satisfeitos</div>
                                 </div>
                                 <div className={styles.stat}>
-                                    <div className={styles.statNumber}>3+</div>
+                                    <div className={styles.statNumber}>2+</div>
                                     <div className={styles.statLabel}>Anos de Experiência</div>
                                 </div>
                             </div>
@@ -320,31 +327,6 @@ function LandingPage({ theme, toggleTheme }) {
                                 </div>
                             </div>
                         </div>
-                        <form className={styles.contactForm}>
-                            <input 
-                                type="text" 
-                                placeholder="Seu nome" 
-                                className={styles.formInput}
-                            />
-                            <input 
-                                type="email" 
-                                placeholder="Seu email" 
-                                className={styles.formInput}
-                            />
-                            <input 
-                                type="tel" 
-                                placeholder="Seu telefone" 
-                                className={styles.formInput}
-                            />
-                            <textarea 
-                                placeholder="Conte-nos sobre seu projeto" 
-                                className={styles.formTextarea}
-                                rows="5"
-                            ></textarea>
-                            <button type="submit" className={styles.formButton}>
-                                Enviar Mensagem
-                            </button>
-                        </form>
                     </div>
                 </div>
             </section>
@@ -355,10 +337,8 @@ function LandingPage({ theme, toggleTheme }) {
             {/* Cookie Banner */}
             <CookieBanner />
 
-            {/* Quote Modal */}
-            <Modal isOpen={quoteModalOpen} onClose={() => setQuoteModalOpen(false)}>
-                <QuoteForm onClose={() => setQuoteModalOpen(false)} />
-            </Modal>
+            {/* Modal de Orçamento */}
+            <QuoteModal isOpen={modalOpen} onClose={handleCloseModal} />
         </div>
     );
 }

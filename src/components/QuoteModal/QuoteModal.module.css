@@ -1,0 +1,842 @@
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 20px;
+    animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .modalOverlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(12px) saturate(180%);
+    }
+}
+
+/* Modal Content */
+.modalContent {
+    position: relative;
+    background: var(--bg-primary);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 960px;
+    max-height: 94vh;
+    box-shadow: 
+        0 32px 64px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+[data-theme="dark"] .modalContent {
+    box-shadow: 
+        0 32px 64px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(48px) scale(0.94);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Close Button */
+.closeButton {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-color);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .closeButton {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.closeButton:hover {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border-color: #ef4444;
+    color: white;
+    transform: rotate(90deg) scale(1.08);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35);
+}
+
+.closeButton:active {
+    transform: rotate(90deg) scale(0.95);
+}
+
+/* Modal Header */
+.modalHeader {
+    text-align: center;
+    padding: 48px 48px 32px;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.modalHeader::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: floatGradient 8s ease-in-out infinite;
+}
+
+@keyframes floatGradient {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(-5%, -5%) scale(1.05);
+    }
+}
+
+.iconWrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.iconWrapper svg {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.modalTitle {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    letter-spacing: -0.02em;
+}
+
+.modalSubtitle {
+    font-size: 15px;
+    margin: 0;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* Modal Form */
+.modalForm {
+    padding: 36px 48px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modalForm::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalForm::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modalForm::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 10px;
+}
+
+.modalForm::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
+
+/* Form Grid */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 0;
+}
+
+.formCol {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formGroupFull {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+.formLabel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.labelIcon {
+    font-size: 18px;
+    display: inline-flex;
+    filter: grayscale(0);
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+    padding: 13px 16px;
+    font-size: 15px;
+    border: 2px solid var(--input-border);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.formInput:hover,
+.formSelect:hover,
+.formTextarea:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 
+        0 0 0 4px rgba(102, 126, 234, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+    background: var(--bg-primary);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .formInput:focus,
+[data-theme="dark"] .formSelect:focus,
+[data-theme="dark"] .formTextarea:focus {
+    box-shadow: 
+        0 0 0 4px rgba(102, 126, 234, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+    color: var(--text-tertiary);
+    opacity: 0.7;
+}
+
+.formTextarea {
+    resize: vertical;
+    min-height: 150px;
+    max-height: 400px;
+    line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-primary) transparent;
+}
+
+.formTextarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.formTextarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.formTextarea::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 10px;
+}
+
+.formTextarea::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
+
+.formSelect {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='9' viewBox='0 0 14 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%23667eea' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 48px;
+}
+
+/* Form Actions */
+.formActions {
+    display: flex;
+    gap: 14px;
+    justify-content: flex-end;
+    padding: 28px 48px 36px;
+    border-top: 2px solid var(--border-color);
+    flex-shrink: 0;
+    background: var(--bg-primary);
+}
+
+.cancelButton,
+.submitButton {
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.cancelButton {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
+}
+
+.cancelButton:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--text-tertiary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.cancelButton:active {
+    transform: translateY(0);
+}
+
+.submitButton {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+.submitButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.submitButton:hover::before {
+    left: 100%;
+}
+
+.submitButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(102, 126, 234, 0.45);
+}
+
+.submitButton:active {
+    transform: translateY(-1px);
+}
+
+/* Responsive - Tablets */
+@media (max-width: 768px) {
+    .modalOverlay {
+        padding: 12px;
+        align-items: center;
+    }
+
+    .modalContent {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 24px;
+        animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUpMobile {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    .modalHeader {
+        padding: 36px 28px 24px;
+    }
+
+    .iconWrapper {
+        width: 64px;
+        height: 64px;
+    }
+
+    .modalTitle {
+        font-size: 26px;
+    }
+
+    .modalSubtitle {
+        font-size: 14px;
+    }
+
+    .modalForm {
+        padding: 24px 28px 0;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .formCol {
+        gap: 16px;
+    }
+
+    .formGroupFull {
+        margin-top: 18px;
+        margin-bottom: 20px;
+    }
+
+    .formTextarea {
+        min-height: 120px;
+        max-height: 220px;
+    }
+
+    .formActions {
+        padding: 24px 28px 32px;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .cancelButton,
+    .submitButton {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .closeButton {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 480px) {
+    .modalOverlay {
+        padding: 10px;
+    }
+
+    .modalContent {
+        border-radius: 20px;
+    }
+
+    .modalHeader {
+        padding: 28px 20px 20px;
+    }
+
+    .iconWrapper {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+    }
+
+    .iconWrapper svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .modalTitle {
+        font-size: 22px;
+    }
+
+    .modalSubtitle {
+        font-size: 13px;
+    }
+
+    .modalForm {
+        padding: 20px 20px 0;
+    }
+
+    .formGrid {
+        gap: 16px;
+    }
+
+    .formCol {
+        gap: 14px;
+    }
+
+    .formGroup {
+        gap: 8px;
+    }
+
+    .formGroupFull {
+        margin-top: 16px;
+        margin-bottom: 18px;
+    }
+
+    .formLabel {
+        font-size: 10px;
+        gap: 8px;
+    }
+
+    .labelIcon {
+        font-size: 16px;
+    }
+
+    .formInput,
+    .formSelect,
+    .formTextarea {
+        padding: 12px 14px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    .formTextarea {
+        min-height: 100px;
+        max-height: 180px;
+    }
+
+    .formActions {
+        padding: 20px 20px 28px;
+        gap: 10px;
+    }
+
+    .cancelButton,
+    .submitButton {
+        padding: 14px;
+        font-size: 12px;
+    }
+
+    .closeButton {
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .closeButton svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Responsive - Telas muito pequenas (240px - 360px) */
+@media (max-width: 360px) {
+    .modalOverlay {
+        padding: 8px;
+    }
+
+    .modalContent {
+        border-radius: 18px;
+        max-height: 95vh;
+    }
+
+    .modalHeader {
+        padding: 24px 16px 18px;
+    }
+
+    .iconWrapper {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
+
+    .iconWrapper svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .modalTitle {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .modalSubtitle {
+        font-size: 12px;
+    }
+
+    .modalForm {
+        padding: 18px 16px 0;
+    }
+
+    .formGrid {
+        gap: 14px;
+        margin-bottom: 0;
+    }
+
+    .formCol {
+        gap: 12px;
+    }
+
+    .formGroup {
+        gap: 6px;
+    }
+
+    .formGroupFull {
+        margin-top: 14px;
+        margin-bottom: 16px;
+    }
+
+    .formLabel {
+        font-size: 9px;
+        gap: 6px;
+    }
+
+    .labelIcon {
+        font-size: 14px;
+    }
+
+    .formInput,
+    .formSelect,
+    .formTextarea {
+        padding: 10px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        border-width: 1.5px;
+    }
+
+    .formSelect {
+        background-position: right 12px center;
+        padding-right: 36px;
+    }
+
+    .formTextarea {
+        min-height: 85px;
+        max-height: 150px;
+    }
+
+    .formActions {
+        padding: 16px 16px 24px;
+        gap: 8px;
+    }
+
+    .cancelButton,
+    .submitButton {
+        padding: 12px;
+        font-size: 11px;
+        gap: 6px;
+        border-radius: 8px;
+    }
+
+    .submitButton svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .closeButton {
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+
+    .closeButton svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Responsive - Telas extremamente pequenas (240px e menos) */
+@media (max-width: 280px) {
+    .modalOverlay {
+        padding: 6px;
+    }
+
+    .modalContent {
+        border-radius: 16px;
+    }
+
+    .modalHeader {
+        padding: 20px 12px 14px;
+    }
+
+    .iconWrapper {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-width: 1px;
+    }
+
+    .iconWrapper svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .modalTitle {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .modalSubtitle {
+        font-size: 11px;
+    }
+
+    .modalForm {
+        padding: 14px 12px 0;
+    }
+
+    .formGrid {
+        gap: 12px;
+        margin-bottom: 0;
+    }
+
+    .formCol {
+        gap: 10px;
+    }
+
+    .formGroup {
+        gap: 5px;
+    }
+
+    .formGroupFull {
+        margin-top: 12px;
+        margin-bottom: 14px;
+    }
+
+    .formLabel {
+        font-size: 8px;
+        gap: 5px;
+    }
+
+    .labelIcon {
+        font-size: 12px;
+    }
+
+    .formInput,
+    .formSelect,
+    .formTextarea {
+        padding: 8px 10px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+
+    .formSelect {
+        background-position: right 10px center;
+        padding-right: 32px;
+        background-size: 12px;
+    }
+
+    .formTextarea {
+        min-height: 70px;
+        max-height: 130px;
+    }
+
+    .formActions {
+        padding: 12px 12px 20px;
+        gap: 6px;
+    }
+
+    .cancelButton,
+    .submitButton {
+        padding: 10px 8px;
+        font-size: 10px;
+        gap: 4px;
+        border-radius: 6px;
+    }
+
+    .submitButton svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .closeButton {
+        top: 8px;
+        right: 8px;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+    }
+
+    .closeButton svg {
+        width: 16px;
+        height: 16px;
+    }
+}
