@@ -1,37 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './LandingPage.module.css';
 import Header from '../../components/Header/Header';
-import Sidebar from '../../components/Sidebar/Sidebar';
 import Footer from '../../components/Footer/Footer';
-import CookieBanner from '../../components/CookieBanner/CookieBanner';
 import QuoteModal from '../../components/QuoteModal/QuoteModal';
 
 function LandingPage({ theme, toggleTheme }) {
-    const [menuOpen, setMenuOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-
-    useEffect(() => {
-        if (menuOpen) {
-            document.body.classList.add('sidebar-open');
-        } else {
-            document.body.classList.remove('sidebar-open');
-        }
-
-        return () => {
-            document.body.classList.remove('sidebar-open');
-        };
-    }, [menuOpen]);
 
     const scrollToSection = (sectionId) => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    const handleMenuToggle = () => {
-        setMenuOpen(!menuOpen);
-    };
-
-    const handleCloseSidebar = () => {
-        setMenuOpen(false);
     };
 
     const handleOpenModal = () => {
@@ -48,17 +25,7 @@ function LandingPage({ theme, toggleTheme }) {
             <Header 
                 theme={theme}
                 toggleTheme={toggleTheme}
-                onMenuToggle={handleMenuToggle}
-                menuOpen={menuOpen}
-                onNavigate={scrollToSection}
                 onOpenQuote={handleOpenModal}
-            />
-
-            {/* Sidebar */}
-            <Sidebar 
-                isOpen={menuOpen}
-                onClose={handleCloseSidebar}
-                onNavigate={scrollToSection}
             />
 
             {/* Hero Section */}
@@ -70,7 +37,7 @@ function LandingPage({ theme, toggleTheme }) {
                             <span className={styles.highlight}> soluções digitais</span>
                         </h1>
                         <p className={styles.heroSubtitle}>
-                            Desenvolvimento de sistemas personalizados, sites modernos e aplicações web 
+                            Desenvolvimento de sistemas personalizados e sites modernos  
                             que impulsionam seu negócio para o próximo nível.
                         </p>
                         <div className={styles.heroButtons}>
@@ -130,8 +97,8 @@ function LandingPage({ theme, toggleTheme }) {
                             </p>
                             <ul className={styles.serviceFeatures}>
                                 <li>Automação de processos</li>
-                                <li>Gestão empresarial</li>
-                                <li>Integração de APIs</li>
+                                <li>Controle total do negócio</li>
+                                <li>Integração com sistemas e plataformas externas</li>
                             </ul>
                         </div>
 
@@ -150,20 +117,6 @@ function LandingPage({ theme, toggleTheme }) {
                         </div>
 
                         <div className={styles.serviceCard}>
-                            <div className={styles.serviceIcon}>📱</div>
-                            <h3 className={styles.serviceTitle}>Aplicações Web</h3>
-                            <p className={styles.serviceDescription}>
-                                Aplicações web progressivas (PWA) que funcionam como apps nativos 
-                                em qualquer dispositivo.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Multiplataforma</li>
-                                <li>Offline-first</li>
-                                <li>Notificações push</li>
-                            </ul>
-                        </div>
-
-                        <div className={styles.serviceCard}>
                             <div className={styles.serviceIcon}>🔧</div>
                             <h3 className={styles.serviceTitle}>Manutenção & Suporte</h3>
                             <p className={styles.serviceDescription}>
@@ -176,20 +129,6 @@ function LandingPage({ theme, toggleTheme }) {
                                 <li>Backup automático</li>
                             </ul>
                         </div>
-
-                        <div className={styles.serviceCard}>
-                            <div className={styles.serviceIcon}>🚀</div>
-                            <h3 className={styles.serviceTitle}>Consultoria Tech</h3>
-                            <p className={styles.serviceDescription}>
-                                Consultoria especializada para ajudar seu negócio a tomar as 
-                                melhores decisões tecnológicas.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Arquitetura de software</li>
-                                <li>Escalabilidade</li>
-                                <li>Otimização de custos</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -197,9 +136,9 @@ function LandingPage({ theme, toggleTheme }) {
             {/* Portfolio Section */}
             <section id="portfolio" className={styles.portfolio}>
                 <div className={styles.sectionContainer}>
-                    <h2 className={styles.sectionTitle}>Projetos em Destaque</h2>
+                    <h2 className={styles.sectionTitle}>Tipos de Projetos que Desenvolvemos</h2>
                     <p className={styles.sectionSubtitle}>
-                        Alguns dos trabalhos que já desenvolvemos
+                        Exemplos de soluções que podemos criar para seu negócio
                     </p>
                     <div className={styles.portfolioGrid}>
                         <div className={styles.portfolioItem}>
@@ -257,27 +196,29 @@ function LandingPage({ theme, toggleTheme }) {
                         <div className={styles.aboutText}>
                             <h2 className={styles.sectionTitle}>Sobre a MultiAlmeida</h2>
                             <p className={styles.aboutDescription}>
-                                Somos uma software house especializada em criar soluções digitais 
-                                inovadoras e personalizadas. Com foco em qualidade, performance e 
-                                experiência do usuário, transformamos ideias em produtos digitais 
-                                que geram resultados reais.
+                                A MultiAlmeida é uma software house focada no desenvolvimento 
+                                de sistemas e soluções digitais sob medida.
                             </p>
                             <p className={styles.aboutDescription}>
-                                Nossa missão é democratizar o acesso à tecnologia de ponta, oferecendo 
-                                soluções de alta qualidade com preços justos e prazos realistas.
+                                Atuamos desde o planejamento até a entrega do software, 
+                                sempre com foco em performance, segurança e escalabilidade.
+                            </p>
+                            <p className={styles.aboutDescription}>
+                                <strong>Nossa missão:</strong> entregar tecnologia de alta qualidade, 
+                                com transparência, prazos claros e foco em resultados.
                             </p>
                             <div className={styles.aboutStats}>
                                 <div className={styles.stat}>
-                                    <div className={styles.statNumber}>50+</div>
-                                    <div className={styles.statLabel}>Projetos Entregues</div>
+                                    <div className={styles.statNumber}>💼</div>
+                                    <div className={styles.statLabel}>Desenvolvimento Personalizado</div>
                                 </div>
                                 <div className={styles.stat}>
-                                    <div className={styles.statNumber}>100%</div>
-                                    <div className={styles.statLabel}>Clientes Satisfeitos</div>
+                                    <div className={styles.statNumber}>⚡</div>
+                                    <div className={styles.statLabel}>Entrega Ágil</div>
                                 </div>
                                 <div className={styles.stat}>
-                                    <div className={styles.statNumber}>2+</div>
-                                    <div className={styles.statLabel}>Anos de Experiência</div>
+                                    <div className={styles.statNumber}>🤝</div>
+                                    <div className={styles.statLabel}>Suporte Direto</div>
                                 </div>
                             </div>
                         </div>
@@ -316,6 +257,7 @@ function LandingPage({ theme, toggleTheme }) {
                                 <div className={styles.contactIcon}>📱</div>
                                 <div>
                                     <h3>WhatsApp</h3>
+                                    <p style={{ marginBottom: '8px', fontWeight: '500' }}>Atendimento rápido e direto com desenvolvedor responsável.</p>
                                     <p>(11) 97054-3189</p>
                                 </div>
                             </div>
@@ -333,9 +275,6 @@ function LandingPage({ theme, toggleTheme }) {
 
             {/* Footer */}
             <Footer />
-
-            {/* Cookie Banner */}
-            <CookieBanner />
 
             {/* Modal de Orçamento */}
             <QuoteModal isOpen={modalOpen} onClose={handleCloseModal} />

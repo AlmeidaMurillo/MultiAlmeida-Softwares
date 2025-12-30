@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -20,6 +22,9 @@
   --card-hover: #fafafa;
   --input-bg: #ffffff;
   --input-border: #d0d0d0;
+  --overlay-light: rgba(0, 0, 0, 0.3);
+  --overlay-medium: rgba(0, 0, 0, 0.5);
+  --overlay-strong: rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="dark"] {
@@ -38,6 +43,9 @@
   --card-hover: rgba(255, 255, 255, 0.05);
   --input-bg: rgba(255, 255, 255, 0.05);
   --input-border: rgba(255, 255, 255, 0.1);
+  --overlay-light: rgba(255, 255, 255, 0.3);
+  --overlay-medium: rgba(255, 255, 255, 0.5);
+  --overlay-strong: rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -45,15 +53,15 @@ html {
   max-width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  font-size: 16px;
 }
 
 body {
   width: 100%;
   max-width: 100%;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-primary);
@@ -133,25 +141,3 @@ a:hover {
   color: white;
 }
 
-/* Responsividade extrema */
-@media (max-width: 480px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 360px) {
-  html {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 240px) {
-  html {
-    font-size: 10px;
-  }
-  
-  body {
-    min-width: 240px;
-  }
-}

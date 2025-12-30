@@ -107,87 +107,107 @@
 
 /* Modal Header */
 .modalHeader {
-    text-align: center;
-    padding: 48px 48px 32px;
+    padding: 20px 48px;
     background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
     color: white;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .modalHeader::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: 
-        radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-    animation: floatGradient 8s ease-in-out infinite;
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%, rgba(255, 255, 255, 0.08) 100%);
+    opacity: 0.5;
 }
 
-@keyframes floatGradient {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-    }
-    50% {
-        transform: translate(-5%, -5%) scale(1.05);
-    }
-}
-
-.iconWrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 72px;
-    height: 72px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    margin-bottom: 20px;
+.headerContent {
     position: relative;
     z-index: 1;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-    animation: floatIcon 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 }
 
-@keyframes floatIcon {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
+.logoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
 }
 
-.iconWrapper svg {
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+.logo {
+    font-size: clamp(0.95rem, 2vw, 1.125rem);
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    text-transform: none;
+}
+
+.subtitle {
+    font-size: clamp(0.65rem, 1.4vw, 0.75rem);
+    color: white;
+    font-weight: 500;
+    opacity: 0.9;
+    line-height: 1;
+}
+
+.titleSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.iconBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.iconBadge svg {
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.titleWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .modalTitle {
-    font-size: 32px;
-    font-weight: 800;
-    margin: 0 0 12px 0;
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    letter-spacing: -0.02em;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: white;
 }
 
-.modalSubtitle {
-    font-size: 15px;
+.titleSubtext {
+    font-size: clamp(0.65rem, 1.4vw, 0.75rem);
     margin: 0;
-    opacity: 0.95;
-    position: relative;
-    z-index: 1;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    color: white;
+    opacity: 0.85;
+    font-weight: 400;
+    line-height: 1.3;
 }
 
 /* Modal Form */
@@ -421,6 +441,25 @@
     transform: translateY(-1px);
 }
 
+/* Responsive - Desktop médio */
+@media (max-width: 1024px) {
+    .modalContent {
+        max-width: 880px;
+    }
+
+    .modalHeader {
+        padding: 20px 42px;
+    }
+
+    .modalForm {
+        padding: 32px 42px 0;
+    }
+
+    .formActions {
+        padding: 26px 42px 34px;
+    }
+}
+
 /* Responsive - Tablets */
 @media (max-width: 768px) {
     .modalOverlay {
@@ -432,37 +471,45 @@
         max-width: 100%;
         max-height: 92vh;
         border-radius: 24px;
-        animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes slideUpMobile {
-        from {
-            transform: translateY(100%);
-        }
-        to {
-            transform: translateY(0);
-        }
     }
 
     .modalHeader {
-        padding: 36px 28px 24px;
+        padding: 32px 28px 22px;
     }
 
-    .iconWrapper {
-        width: 64px;
-        height: 64px;
+    .headerContent {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .titleSection {
+        width: 100%;
+    }
+
+    .iconBadge {
+        width: 40px;
+        height: 40px;
     }
 
     .modalTitle {
-        font-size: 26px;
+        font-size: 18px;
     }
 
-    .modalSubtitle {
-        font-size: 14px;
+    .titleSubtext {
+        font-size: 11px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .subtitle {
+        font-size: 11px;
     }
 
     .modalForm {
-        padding: 24px 28px 0;
+        padding: 26px 28px 0;
     }
 
     .formGrid {
@@ -518,23 +565,35 @@
         padding: 28px 20px 20px;
     }
 
-    .iconWrapper {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
+    .headerContent {
+        gap: 14px;
     }
 
-    .iconWrapper svg {
-        width: 28px;
-        height: 28px;
+    .iconBadge {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+    }
+
+    .iconBadge svg {
+        width: 18px;
+        height: 18px;
     }
 
     .modalTitle {
-        font-size: 22px;
+        font-size: 16px;
     }
 
-    .modalSubtitle {
-        font-size: 13px;
+    .titleSubtext {
+        font-size: 10.5px;
+    }
+
+    .logo {
+        font-size: 14px;
+    }
+
+    .subtitle {
+        font-size: 10px;
     }
 
     .modalForm {
@@ -605,12 +664,8 @@
     }
 }
 
-/* Responsive - Telas muito pequenas (240px - 360px) */
-@media (max-width: 360px) {
-    .modalOverlay {
-        padding: 8px;
-    }
-
+/* Responsive - Mobile extra pequeno */
+@media (max-width: 320px) {
     .modalContent {
         border-radius: 18px;
         max-height: 95vh;
@@ -620,223 +675,19 @@
         padding: 24px 16px 18px;
     }
 
-    .iconWrapper {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        margin-bottom: 12px;
-    }
-
-    .iconWrapper svg {
-        width: 24px;
-        height: 24px;
-    }
-
-    .modalTitle {
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-
-    .modalSubtitle {
-        font-size: 12px;
-    }
-
     .modalForm {
         padding: 18px 16px 0;
     }
 
-    .formGrid {
-        gap: 14px;
-        margin-bottom: 0;
-    }
-
-    .formCol {
-        gap: 12px;
-    }
-
-    .formGroup {
-        gap: 6px;
-    }
-
-    .formGroupFull {
-        margin-top: 14px;
-        margin-bottom: 16px;
-    }
-
-    .formLabel {
-        font-size: 9px;
-        gap: 6px;
-    }
-
-    .labelIcon {
-        font-size: 14px;
-    }
-
-    .formInput,
-    .formSelect,
-    .formTextarea {
-        padding: 10px 12px;
-        font-size: 13px;
-        border-radius: 8px;
-        border-width: 1.5px;
-    }
-
-    .formSelect {
-        background-position: right 12px center;
-        padding-right: 36px;
-    }
-
-    .formTextarea {
-        min-height: 85px;
-        max-height: 150px;
-    }
-
     .formActions {
         padding: 16px 16px 24px;
-        gap: 8px;
-    }
-
-    .cancelButton,
-    .submitButton {
-        padding: 12px;
-        font-size: 11px;
-        gap: 6px;
-        border-radius: 8px;
-    }
-
-    .submitButton svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    .closeButton {
-        top: 10px;
-        right: 10px;
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-    }
-
-    .closeButton svg {
-        width: 18px;
-        height: 18px;
-    }
-}
-
-/* Responsive - Telas extremamente pequenas (240px e menos) */
-@media (max-width: 280px) {
-    .modalOverlay {
-        padding: 6px;
-    }
-
-    .modalContent {
-        border-radius: 16px;
-    }
-
-    .modalHeader {
-        padding: 20px 12px 14px;
-    }
-
-    .iconWrapper {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        border-width: 1px;
-    }
-
-    .iconWrapper svg {
-        width: 20px;
-        height: 20px;
     }
 
     .modalTitle {
-        font-size: 18px;
-        margin-bottom: 6px;
+        font-size: 15px;
     }
 
-    .modalSubtitle {
-        font-size: 11px;
-    }
-
-    .modalForm {
-        padding: 14px 12px 0;
-    }
-
-    .formGrid {
-        gap: 12px;
-        margin-bottom: 0;
-    }
-
-    .formCol {
-        gap: 10px;
-    }
-
-    .formGroup {
-        gap: 5px;
-    }
-
-    .formGroupFull {
-        margin-top: 12px;
-        margin-bottom: 14px;
-    }
-
-    .formLabel {
-        font-size: 8px;
-        gap: 5px;
-    }
-
-    .labelIcon {
-        font-size: 12px;
-    }
-
-    .formInput,
-    .formSelect,
-    .formTextarea {
-        padding: 8px 10px;
-        font-size: 12px;
-        border-radius: 6px;
-    }
-
-    .formSelect {
-        background-position: right 10px center;
-        padding-right: 32px;
-        background-size: 12px;
-    }
-
-    .formTextarea {
-        min-height: 70px;
-        max-height: 130px;
-    }
-
-    .formActions {
-        padding: 12px 12px 20px;
-        gap: 6px;
-    }
-
-    .cancelButton,
-    .submitButton {
-        padding: 10px 8px;
+    .titleSubtext {
         font-size: 10px;
-        gap: 4px;
-        border-radius: 6px;
-    }
-
-    .submitButton svg {
-        width: 14px;
-        height: 14px;
-    }
-
-    .closeButton {
-        top: 8px;
-        right: 8px;
-        width: 28px;
-        height: 28px;
-        border-radius: 6px;
-    }
-
-    .closeButton svg {
-        width: 16px;
-        height: 16px;
     }
 }

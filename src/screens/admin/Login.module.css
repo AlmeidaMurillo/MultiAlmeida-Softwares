@@ -1,0 +1,531 @@
+/* ===== LOGIN PAGE - MODERN & PROFESSIONAL ===== */
+
+/* Container Principal */
+.loginPage {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--bg-primary);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Login Section */
+.loginContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.5rem, 2vw, 1.5rem);
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.loginContainer::before,
+.loginContainer::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+}
+
+.loginContainer::before {
+    width: min(500px, 80vw);
+    height: min(500px, 80vw);
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.12) 0%, transparent 70%);
+    top: 10%;
+    right: -15%;
+}
+
+.loginContainer::after {
+    width: min(400px, 70vw);
+    height: min(400px, 70vw);
+    background: radial-gradient(circle, rgba(118, 75, 162, 0.12) 0%, transparent 70%);
+    bottom: 10%;
+    left: -15%;
+    animation-delay: -2s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Login Card */
+.loginCard {
+    background: var(--card-bg);
+    border-radius: clamp(12px, 3vw, 20px);
+    box-shadow: 0 10px 40px var(--shadow);
+    padding: clamp(1rem, 4vw, 2rem);
+    width: 100%;
+    max-width: min(380px, calc(100vw - 1rem));
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.6s ease-out;
+    position: relative;
+    z-index: 1;
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header */
+.loginHeader {
+    text-align: center;
+    margin-bottom: clamp(0.75rem, 3vw, 1.5rem);
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: clamp(0.35rem, 1.5vw, 0.75rem);
+}
+
+.logoIcon {
+    animation: logoFloat 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoIcon svg {
+    width: clamp(36px, 10vw, 48px);
+    height: clamp(36px, 10vw, 48px);
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.loginTitle {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    font-weight: 700;
+    margin-bottom: clamp(0.2rem, 1vw, 0.35rem);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+
+.loginSubtitle {
+    font-size: clamp(0.7rem, 2.5vw, 0.875rem);
+    color: var(--text-secondary);
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Form */
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2.5vw, 1.25rem);
+}
+
+/* Error Message */
+.errorMessage {
+    background: rgba(254, 242, 242, 0.9);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+    padding: clamp(0.5rem, 2vw, 0.875rem);
+    border-radius: clamp(8px, 2vw, 12px);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.4rem, 1.5vw, 0.75rem);
+    font-size: clamp(0.7rem, 2.5vw, 0.875rem);
+    font-weight: 500;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.errorIcon {
+    flex-shrink: 0;
+    width: clamp(16px, 4vw, 20px);
+    height: clamp(16px, 4vw, 20px);
+}
+
+/* Input Group */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.25rem, 1vw, 0.4rem);
+}
+
+.label {
+    font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+    font-weight: 600;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.3rem, 1vw, 0.5rem);
+}
+
+.label svg {
+    color: var(--accent-primary);
+    width: clamp(12px, 3vw, 16px);
+    height: clamp(12px, 3vw, 16px);
+    flex-shrink: 0;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputIcon {
+    position: absolute;
+    left: clamp(0.6rem, 2vw, 1rem);
+    width: clamp(14px, 4vw, 18px);
+    height: clamp(14px, 4vw, 18px);
+    pointer-events: none;
+    z-index: 1;
+    color: var(--text-tertiary);
+}
+
+.input {
+    width: 100%;
+    padding: clamp(0.6rem, 2vw, 0.75rem);
+    padding-left: clamp(2rem, 8vw, 2.75rem);
+    border: 2px solid var(--input-border);
+    border-radius: clamp(8px, 2vw, 10px);
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.input::placeholder {
+    color: var(--text-tertiary);
+    font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+}
+
+.input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Toggle Password */
+.togglePassword {
+    position: absolute;
+    right: clamp(0.5rem, 2vw, 0.75rem);
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: clamp(0.25rem, 1vw, 0.4rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.togglePassword svg {
+    width: clamp(16px, 4vw, 20px);
+    height: clamp(16px, 4vw, 20px);
+}
+
+.togglePassword:hover:not(:disabled) {
+    color: var(--accent-primary);
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.togglePassword:disabled {
+    cursor: not-allowed;
+}
+
+/* Form Options */
+.formOptions {
+    display: flex;
+    align-items: center;
+    margin-top: clamp(-0.35rem, -1vw, -0.25rem);
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.35rem, 1.5vw, 0.5rem);
+    font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+}
+
+.checkbox {
+    width: clamp(0.9rem, 3vw, 1.1rem);
+    height: clamp(0.9rem, 3vw, 1.1rem);
+    cursor: pointer;
+    accent-color: var(--accent-primary);
+    flex-shrink: 0;
+}
+
+/* Submit Button */
+.submitButton {
+    width: 100%;
+    padding: clamp(0.6rem, 2.5vw, 0.875rem) clamp(1rem, 3vw, 1.5rem);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white;
+    border: none;
+    border-radius: clamp(8px, 2vw, 10px);
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.35rem, 1.5vw, 0.5rem);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.35);
+}
+
+.submitButton svg {
+    width: clamp(14px, 4vw, 18px);
+    height: clamp(14px, 4vw, 18px);
+    flex-shrink: 0;
+}
+
+.submitButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.4s ease;
+}
+
+.submitButton:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.submitButton:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.45);
+}
+
+.submitButton:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Spinner */
+.spinner {
+    width: clamp(0.85rem, 3vw, 1rem);
+    height: clamp(0.85rem, 3vw, 1rem);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Login Footer (inside card) */
+.loginFooter {
+    display: none;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .loginContainer::before,
+    .loginContainer::after {
+        opacity: 0.7;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .loginCard {
+        border-radius: 14px;
+        box-shadow: 0 8px 30px var(--shadow);
+    }
+    
+    .input {
+        padding-right: 2.5rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+    .loginCard {
+        border-radius: 12px;
+    }
+    
+    .loginContainer::before,
+    .loginContainer::after {
+        display: none;
+    }
+}
+
+/* Extra Small */
+@media (max-width: 280px) {
+    .loginCard {
+        padding: 0.875rem;
+        border-radius: 10px;
+    }
+
+    .loginHeader {
+        margin-bottom: 0.6rem;
+    }
+
+    .loginForm {
+        gap: 0.6rem;
+    }
+
+    .inputGroup {
+        gap: 0.2rem;
+    }
+
+    .formOptions {
+        margin-top: -0.2rem;
+    }
+}
+
+/* Minimum Width Support */
+@media (max-width: 240px) {
+    .loginPage {
+        min-width: 240px;
+    }
+
+    .loginCard {
+        padding: 0.75rem;
+        border-radius: 8px;
+        max-width: 100%;
+    }
+
+    .loginTitle {
+        font-size: 1rem;
+    }
+
+    .loginSubtitle {
+        font-size: 0.65rem;
+    }
+
+    .logoIcon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .input {
+        padding: 0.5rem 2rem 0.5rem 1.75rem;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        border-width: 1px;
+    }
+
+    .inputIcon {
+        left: 0.5rem;
+        width: 12px;
+        height: 12px;
+    }
+
+    .label {
+        font-size: 0.7rem;
+    }
+
+    .label svg {
+        width: 10px;
+        height: 10px;
+    }
+
+    .submitButton {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        border-radius: 6px;
+    }
+
+    .submitButton svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .checkboxLabel {
+        font-size: 0.65rem;
+    }
+
+    .checkbox {
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    .togglePassword {
+        right: 0.35rem;
+        padding: 0.2rem;
+    }
+
+    .togglePassword svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .errorMessage {
+        padding: 0.4rem;
+        font-size: 0.65rem;
+        border-radius: 6px;
+    }
+
+    .errorIcon {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* Height adjustments for landscape/small height */
+@media (max-height: 600px) {
+    .loginCard {
+        padding: clamp(0.75rem, 2vh, 1.5rem);
+    }
+
+    .loginHeader {
+        margin-bottom: clamp(0.5rem, 2vh, 1rem);
+    }
+
+    .loginForm {
+        gap: clamp(0.5rem, 2vh, 1rem);
+    }
+
+    .logoIcon svg {
+        width: clamp(28px, 8vh, 40px);
+        height: clamp(28px, 8vh, 40px);
+    }
+}

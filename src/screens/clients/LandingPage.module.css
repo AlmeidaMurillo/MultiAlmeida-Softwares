@@ -51,6 +51,7 @@
 
 .heroContent {
     max-width: 1400px;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
@@ -241,6 +242,12 @@
     color: var(--text-color);
 }
 
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+
 .floatingCard:nth-child(1) {
     top: 10%;
     left: 10%;
@@ -257,11 +264,6 @@
     bottom: 15%;
     left: 20%;
     animation-delay: 2s;
-}
-
-@keyframes floatCard {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
 }
 
 .cardIcon {
@@ -532,21 +534,32 @@
 
 .stat {
     text-align: center;
+    background: var(--card-bg);
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+    border-color: var(--accent-primary);
 }
 
 .statNumber {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 800;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .statLabel {
     color: var(--text-secondary);
-    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-weight: 600;
+    line-height: 1.4;
 }
 
 .techStack {
@@ -613,6 +626,7 @@
     padding: clamp(1rem, 3vw, 1.5rem);
     background: var(--card-bg);
     border-radius: 15px;
+    cursor: pointer;
     border: 1px solid var(--border-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -650,15 +664,18 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .heroContent,
-    .aboutContent,
-    .contactContent {
+    .heroContent {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
 
     .heroImage {
         display: none;
+    }
+
+    .aboutContent {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .aboutStats {
@@ -669,8 +686,28 @@
 
 @media (max-width: 768px) {
     .hero {
+        display: flex;
         padding: 6rem 1rem 2rem;
         min-height: 80vh;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .heroTitle {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+    }
+
+    .heroSubtitle {
+        font-size: clamp(0.95rem, 3.6vw, 1.1rem);
+    }
+
+    .sectionTitle {
+        font-size: clamp(1.55rem, 6vw, 2.2rem);
+    }
+
+    .sectionSubtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
     }
 
     .services,
@@ -704,11 +741,6 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-
-    .footerContent {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -730,6 +762,22 @@
     .cardIcon {
         font-size: 1.5rem;
     }
+
+    .heroTitle {
+        font-size: clamp(1.55rem, 7.5vw, 2.05rem);
+    }
+
+    .heroSubtitle {
+        font-size: clamp(0.92rem, 4vw, 1.05rem);
+    }
+
+    .sectionTitle {
+        font-size: clamp(1.4rem, 6.8vw, 1.95rem);
+    }
+
+    .sectionSubtitle {
+        font-size: clamp(0.9rem, 4vw, 1.05rem);
+    }
 }
 
 @media (max-width: 360px) {
@@ -741,11 +789,9 @@
         padding-left: 0.75rem;
         padding-right: 0.75rem;
     }
-
 }
 
-
-@media (max-width: 240px) {
+@media (max-width: 320px) {
     .hero {
         padding: 5rem 0.5rem 1rem;
     }
@@ -777,18 +823,19 @@
         font-size: 1.2rem;
     }
 
-    .footer {
-        padding: 1.5rem 0.5rem 1rem;
+    .heroTitle {
+        font-size: clamp(1.35rem, 7vw, 1.8rem);
     }
 
-    .footerSection h4 {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
+    .heroSubtitle {
+        font-size: clamp(0.88rem, 4.2vw, 1rem);
     }
 
-    .footerText,
-    .footerLinks li,
-    .socialLink {
-        font-size: 0.75rem;
+    .sectionTitle {
+        font-size: clamp(1.25rem, 7vw, 1.75rem);
+    }
+
+    .sectionSubtitle {
+        font-size: clamp(0.85rem, 4.2vw, 0.98rem);
     }
 }

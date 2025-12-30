@@ -1,7 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import LandingPage from "./screens/clients/LandingPage";
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Spinner from "./components/Spinner/Spinner";
+
+// Lazy loading dos componentes
+const LandingPage = lazy(() => import("./screens/clients/LandingPage"));
+const Login = lazy(() => import("./screens/admin/Login"));
+const PrivacyPolicy = lazy(() => import("./screens/universal/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./screens/universal/TermsOfService"));
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,9 +32,14 @@ function App() {
     <BrowserRouter>
       <Spinner loading={loading} />
       {!loading && (
-        <Routes>
-          <Route path="/" element={<LandingPage theme={theme} toggleTheme={toggleTheme} />} />
-        </Routes>
+        <Suspense fallback={<Spinner loading={true} />}>
+          <Routes>
+            <Route path="/" element={<LandingPage theme={theme} toggleTheme={toggleTheme} />} />
+            <Route path="/admin/login" element={<Login theme={theme} toggleTheme={toggleTheme} />} />
+            <Route path="/politica-privacidade" element={<PrivacyPolicy />} />
+            <Route path="/termos-uso" element={<TermsOfService />} />
+          </Routes>
+        </Suspense>
       )}
     </BrowserRouter>
   );
