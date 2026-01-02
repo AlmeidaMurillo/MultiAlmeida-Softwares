@@ -1,6 +1,59 @@
 import { useState } from 'react';
 import styles from './QuoteModal.module.css';
 
+const STORAGE_KEY = "ma_quotes_v1";
+
+function safeJsonParse(value, fallback) {
+    try {
+        return JSON.parse(value);
+    } catch {
+        return fallback;
+    }
+}
+
+function newId() {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+        return crypto.randomUUID();
+    }
+    return `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+}
+
+function loadAll() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const data = safeJsonParse(raw, null);
+    if (!data || typeof data !== "object" || !Array.isArray(data.items)) {
+        return { version: 1, items: [] };
+    }
+    return data;
+}
+
+function saveAll(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function createQuote(payload) {
+    const data = loadAll();
+
+    const quote = {
+        id: newId(),
+        createdAt: new Date().toISOString(),
+        status: "novo",
+        nome: payload.nome || "",
+        email: payload.email || "",
+        telefone: payload.telefone || "",
+        empresa: payload.empresa || "",
+        tipoServico: payload.tipoServico || "",
+        descricao: payload.descricao || "",
+        orcamento: payload.orcamento || "",
+        prazo: payload.prazo || "",
+        responses: [],
+    };
+
+    data.items.unshift(quote);
+    saveAll(data);
+    return quote;
+}
+
 function QuoteModal({ isOpen, onClose }) {
     const [formData, setFormData] = useState({
         nome: '',
@@ -23,8 +76,7 @@ function QuoteModal({ isOpen, onClose }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Aqui você pode adicionar a lógica para enviar o formulário
-        console.log('Dados do formulário:', formData);
+        createQuote(formData);
         alert('Solicitação enviada com sucesso! Entraremos em contato em breve.');
         onClose();
         // Limpar formulário

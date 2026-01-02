@@ -1,12 +1,64 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
 import styles from "./Header.module.css";
+import MobileSidebar from "../Sidebar/MobileSidebar";
 
-function Header({ theme, toggleTheme, onOpenQuote, simplifiedMode = false }) {
+function Header({
+  theme,
+  toggleTheme,
+  onOpenQuote,
+  simplifiedMode = false,
+  onMenuToggle,
+  menuOpen = false,
+  menuAriaControls,
+}) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  
+  // Detecta se o dispositivo suporta hover (ex: mouse)
+  const [isHoverCapable, setIsHoverCapable] = useState(true);
+
+  useEffect(() => {
+    // Só roda no navegador
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+    // Atualiza o estado quando houver mudança
+    const updateHover = () => setIsHoverCapable(media.matches);
+
+    updateHover(); // Checa inicialmente
+    media.addEventListener("change", updateHover);
+    return () => media.removeEventListener("change", updateHover);
+  }, []);
+
+  const goHomeOrScrollTop = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      return;
+    }
+    navigate("/");
+  };
+
+  const goToLandingSection = (sectionId) => {
+    if (location.pathname === "/") {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    navigate("/", { state: { scrollTo: sectionId } });
+  };
+
+  const goToServicesPage = (hash) => {
+    setServicesOpen(false);
+    if (hash) {
+      navigate("/servicos", { state: { scrollToService: hash } });
+      return;
+    }
+    navigate("/servicos");
+  };
 
   const toggleMobileSidebar = () => {
     setIsMobileSidebarOpen(!isMobileSidebarOpen);
@@ -16,30 +68,30 @@ function Header({ theme, toggleTheme, onOpenQuote, simplifiedMode = false }) {
     setIsMobileSidebarOpen(false);
   };
 
-  useEffect(() => {
-    if (isMobileSidebarOpen) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-
-    return () => {
-      document.body.classList.remove("modal-open");
-    };
-  }, [isMobileSidebarOpen]);
-
-  const handleScrollTo = (sectionId) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-    closeMobileSidebar();
-  };
+  // O controle de scroll e do body (modal-open) fica no componente MobileSidebar.
 
   return (
     <>
-      <header className={styles.headerTop}>
-        <div className={styles.logoContainer} onClick={() => navigate("/")}>
+      <header
+        className={`${styles.headerTop} ${
+          simplifiedMode && onMenuToggle ? styles.headerAdmin : ""
+        }`}
+      >
+        {simplifiedMode && onMenuToggle ? (
+          <button
+            className={`${styles.mobileMenuButton} ${
+              menuOpen ? styles.menuOpen : ""
+            } ${styles.menuButtonAlways} ${styles.menuButtonLeft}`}
+            onClick={onMenuToggle}
+            aria-label="Alternar menu"
+            aria-expanded={menuOpen}
+            aria-controls={menuAriaControls}
+          >
+            <FaBars />
+          </button>
+        ) : null}
+
+        <div className={styles.logoContainer} onClick={goHomeOrScrollTop}>
           <div className={styles.logo}>MultiAlmeida</div>
           <h2 className={styles.subtitle}>Softwares</h2>
         </div>
@@ -47,51 +99,95 @@ function Header({ theme, toggleTheme, onOpenQuote, simplifiedMode = false }) {
         {/* Navigation Desktop */}
         {!simplifiedMode && (
           <nav className={styles.desktopNav}>
-            <button onClick={() => navigate("/")} className={styles.navLink}>
+            <button onClick={goHomeOrScrollTop} className={styles.navLink}>
               Início
             </button>
             <div
               className={styles.navItem}
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
+              onMouseEnter={isHoverCapable ? () => setServicesOpen(true) : undefined}
+              onMouseLeave={isHoverCapable ? () => setServicesOpen(false) : undefined}
             >
-              <button className={`${styles.navLink} ${servicesOpen ? styles.activeNav : ''}`}>
+              <button
+                className={`${styles.navLink} ${servicesOpen ? styles.activeNav : ""}`}
+                onClick={
+                  isHoverCapable
+                    ? () => {
+                        setServicesOpen(false);
+                        goToLandingSection("services");
+                      }
+                    : () => setServicesOpen((open) => !open)
+                }
+                aria-expanded={servicesOpen}
+                aria-haspopup="menu"
+              >
                 Serviços <span className={styles.dropdownArrow}>▼</span>
               </button>
               {servicesOpen && (
                 <div className={styles.dropdown}>
-                  <button className={styles.dropdownLink}>
+                  <button className={styles.dropdownLink} onClick={() => navigate("/servicos")}>
                     <span className={styles.dropdownIcon}>🌐</span>
-                    <span>Sites Institucionais</span>
+                    <span className={styles.dropdownText}>Todos Os Serviços</span>
+                    <span className={styles.dropdownCta} aria-hidden="true">
+                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
+                    </span>
                   </button>
-                  <button className={styles.dropdownLink}>
+                  <button className={styles.dropdownLink} onClick={() => goToServicesPage("sites-institucionais")}>
+                    <span className={styles.dropdownIcon}>🏢</span>
+                    <span className={styles.dropdownText}>Sites Institucionais</span>
+                    <span className={styles.dropdownCta} aria-hidden="true">
+                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
+                    </span>
+                  </button>
+                  <button className={styles.dropdownLink} onClick={() => goToServicesPage("sistemas-personalizados")}>
                     <span className={styles.dropdownIcon}>⚙️</span>
-                    <span>Sistemas Personalizados</span>
+                    <span className={styles.dropdownText}>Sistemas Personalizados</span>
+                    <span className={styles.dropdownCta} aria-hidden="true">
+                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
+                    </span>
                   </button>
-                  <button className={styles.dropdownLink}>
+                  <button className={styles.dropdownLink} onClick={() => goToServicesPage("ecommerce")}>
                     <span className={styles.dropdownIcon}>🛒</span>
-                    <span>E-commerce</span>
+                    <span className={styles.dropdownText}>E-commerce</span>
+                    <span className={styles.dropdownCta} aria-hidden="true">
+                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
+                    </span>
                   </button>
-                  <button className={styles.dropdownLink}>
+                  <button className={styles.dropdownLink} onClick={() => goToServicesPage("manutencao-suporte")}>
                     <span className={styles.dropdownIcon}>🔧</span>
-                    <span>Manutenção & Suporte</span>
+                    <span className={styles.dropdownText}>Manutenção & Suporte</span>
+                    <span className={styles.dropdownCta} aria-hidden="true">
+                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
+                    </span>
                   </button>
                 </div>
               )}
             </div>
-            <button className={styles.navLink}>
+            <button
+              className={styles.navLink}
+              onClick={() => goToLandingSection("portfolio")}
+            >
               Portfólio
             </button>
-            <button className={styles.navLink}>
+            <button
+              className={styles.navLink}
+              onClick={() => goToLandingSection("about")}
+            >
               Sobre Nós
             </button>
-            <button className={styles.navLink}>
+            <button
+              className={styles.navLink}
+              onClick={() => goToLandingSection("contact")}
+            >
               Contato
             </button>
           </nav>
         )}
 
-        <div className={styles.actionsContainer}>
+        <div
+          className={`${styles.actionsContainer} ${
+            simplifiedMode ? styles.actionsAlways : ""
+          }`}
+        >
           <button
             className={styles.iconButton}
             onClick={toggleTheme}
@@ -109,8 +205,10 @@ function Header({ theme, toggleTheme, onOpenQuote, simplifiedMode = false }) {
         </div>
 
         {!simplifiedMode && (
-          <button 
-            className={`${styles.mobileMenuButton} ${isMobileSidebarOpen ? styles.menuOpen : ''}`} 
+          <button
+            className={`${styles.mobileMenuButton} ${
+              isMobileSidebarOpen ? styles.menuOpen : ""
+            }`}
             onClick={toggleMobileSidebar}
           >
             {isMobileSidebarOpen ? <FaTimes /> : <FaBars />}
@@ -118,80 +216,14 @@ function Header({ theme, toggleTheme, onOpenQuote, simplifiedMode = false }) {
         )}
       </header>
 
-      {!simplifiedMode && isMobileSidebarOpen && (
-        <div className={styles.mobileSidebarOverlay} onClick={closeMobileSidebar}>
-          <div className={styles.mobileSidebar} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.mobileSidebarHeader}>
-              <h3>Menu</h3>
-              <button className={styles.closeButton} onClick={closeMobileSidebar}>
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className={styles.mobileSidebarContent}>
-              <div className={styles.menuSection}>
-                <span className={styles.menuSectionTitle}>Navegação</span>
-
-                <button
-                  className={styles.mobileSidebarItem}
-                  onClick={() => {
-                    navigate("/");
-                    closeMobileSidebar();
-                  }}
-                >
-                  <span>🏠</span>
-                  <span>Início</span>
-                </button>
-
-                <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("services")}>
-                  <span>🧩</span>
-                  <span>Serviços</span>
-                </button>
-
-                <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("portfolio")}>
-                  <span>💼</span>
-                  <span>Portfólio</span>
-                </button>
-
-                <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("about")}>
-                  <span>👥</span>
-                  <span>Sobre Nós</span>
-                </button>
-
-                <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("contact")}>
-                  <span>📧</span>
-                  <span>Contato</span>
-                </button>
-              </div>
-
-              <div className={styles.menuSection}>
-                <span className={styles.menuSectionTitle}>Configurações</span>
-
-                <button
-                  className={styles.mobileSidebarItem}
-                  onClick={() => {
-                    toggleTheme();
-                    closeMobileSidebar();
-                  }}
-                >
-                  {theme === "dark" ? <FaSun /> : <FaMoon />}
-                  <span>Tema {theme === "dark" ? "Claro" : "Escuro"}</span>
-                </button>
-
-                <button
-                  className={styles.mobileSidebarItem}
-                  onClick={() => {
-                    onOpenQuote?.();
-                    closeMobileSidebar();
-                  }}
-                >
-                  <span>📝</span>
-                  <span>Solicitar Orçamento</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {!simplifiedMode && (
+        <MobileSidebar
+          isOpen={isMobileSidebarOpen}
+          onClose={closeMobileSidebar}
+          theme={theme}
+          toggleTheme={toggleTheme}
+          onOpenQuote={onOpenQuote}
+        />
       )}
     </>
   );

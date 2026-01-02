@@ -6,6 +6,8 @@
   border-top: 1px solid var(--border-color);
   flex-shrink: 0;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .footerContent {

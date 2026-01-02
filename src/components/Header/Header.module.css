@@ -9,13 +9,13 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--text-color);
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
+  column-gap: clamp(0.5rem, 1.2vw, 1rem);
   padding: 0 clamp(1rem, 3vw, 5rem);
   box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1),
     0 2px 8px rgba(0, 0, 0, 0.15);
-  flex-wrap: nowrap;
   transition: background-color 0.3s ease;
   box-sizing: border-box;
 }
@@ -26,6 +26,7 @@
   user-select: none;
   cursor: pointer;
   gap: 0;
+  justify-self: start;
 }
 
 .logo {
@@ -48,6 +49,7 @@
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  justify-self: end;
 }
 
 /* Desktop Navigation */
@@ -55,6 +57,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  justify-self: center;
+  justify-content: center;
 }
 
 .navLink {
@@ -84,11 +88,13 @@
     transition: width 0.3s ease;
 }
 
-.navLink:hover {
-    color: var(--accent-primary);
-    background: var(--card-hover);
-    transform: translateY(-2px);
-}
+  @media (hover: hover) and (pointer: fine) {
+    .navLink:hover {
+      color: var(--accent-primary);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+    }
+  }
 
 .activeNav {
   color: var(--active-bg);
@@ -96,15 +102,17 @@
   opacity: 1;
 }
 
-.navLink:hover::after {
-    width: 60%;
+@media (hover: hover) and (pointer: fine) {
+  .navLink:hover::after {
+      width: 60%;
+  }
 }
 
 .navLink:active {
     transform: translateY(0);
 }
 
-@media (hover: none) {
+@media (hover: none) and (pointer: coarse) {
   .navLink::after {
     display: none;
   }
@@ -175,11 +183,51 @@
   opacity: 0.8;
 }
 
-.dropdownLink:hover {
-  background: var(--hover-bg);
-  border-left-color: var(--active-bg);
-  color: var(--text-color);
-  opacity: 1;
+.dropdownText {
+  flex: 1;
+}
+
+.dropdownCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdownCtaArrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dropdownLink:hover {
+    background: var(--hover-bg);
+    border-left-color: var(--active-bg);
+    color: var(--text-color);
+    opacity: 1;
+  }
+
+  .dropdownLink:hover .dropdownCta {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dropdownLink:hover .dropdownCtaArrow {
+    transform: translateX(2px);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .dropdownLink:active {
+    background: var(--hover-bg);
+    border-left-color: var(--active-bg);
+    color: var(--text-color);
+    opacity: 1;
+  }
 }
 
 .dropdownIcon {
@@ -215,20 +263,22 @@
   transition: left 0.5s ease;
 }
 
-.ctaButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-}
+@media (hover: hover) and (pointer: fine) {
+  .ctaButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  }
 
-.ctaButton:hover::before {
-  left: 100%;
+  .ctaButton:hover::before {
+    left: 100%;
+  }
 }
 
 .ctaButton:active {
   transform: translateY(0);
 }
 
-@media (hover: none) {
+@media (hover: none) and (pointer: coarse) {
   .ctaButton::before {
     display: none;
   }
@@ -525,6 +575,30 @@
   display: none;
   align-items: center;
   justify-content: center;
+  justify-self: end;
+}
+
+/* Usado no painel admin: força o botão de menu a aparecer mesmo no desktop */
+.menuButtonAlways {
+  display: flex;
+}
+
+.menuButtonLeft {
+  justify-self: start;
+}
+
+/* Modo painel (simplifiedMode): mais encostado à esquerda */
+.headerAdmin {
+  padding: 0 clamp(0.5rem, 1.6vw, 1.25rem);
+}
+
+.menuButtonLeft {
+  margin-left: -0.25rem;
+}
+
+/* No painel, o botão de tema não some no mobile */
+.actionsAlways {
+  display: flex;
 }
 
 .mobileMenuButton:active {
@@ -1071,6 +1145,10 @@
   .desktopNav {
     display: none;
   }
+
+  .mobileMenuButton {
+    display: flex;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1084,6 +1162,14 @@
   
   .actionsContainer {
     display: none;
+  }
+
+  .headerAdmin {
+    padding: 0 0.75rem;
+  }
+
+  .actionsAlways {
+    display: flex;
   }
 }
 
@@ -1115,5 +1201,21 @@
   
   .logoContainer {
     gap: 0.2rem;
+  }
+}
+
+@media (max-width: 240px) {
+  .headerTop {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    column-gap: 0.4rem;
+  }
+
+  .logo {
+    font-size: 0.95rem;
+  }
+
+  .subtitle {
+    font-size: 0.55rem;
   }
 }

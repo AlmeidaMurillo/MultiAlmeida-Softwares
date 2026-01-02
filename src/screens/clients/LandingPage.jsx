@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import QuoteModal from '../../components/QuoteModal/QuoteModal';
+import useSeo from '../../utils/useSeo';
 
 function LandingPage({ theme, toggleTheme }) {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
+
+    useSeo({
+        title: 'MultiAlmeida Softwares | Desenvolvimento de Sites e Sistemas',
+        description: 'Criamos sites modernos, sistemas sob medida e e-commerce com foco em performance, segurança e conversão.',
+    });
 
     const scrollToSection = (sectionId) => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
@@ -18,6 +27,20 @@ function LandingPage({ theme, toggleTheme }) {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
+
+    const goToService = (serviceSlug) => {
+        navigate('/servicos', { state: { scrollToService: serviceSlug } });
+    };
+
+    useEffect(() => {
+        const sectionId = location.state?.scrollTo;
+        if (!sectionId) return;
+
+        requestAnimationFrame(() => {
+            document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+            navigate(location.pathname, { replace: true, state: null });
+        });
+    }, [location.pathname, location.state, navigate]);
 
     return (
         <div className={styles.landingContainer}>
@@ -74,7 +97,10 @@ function LandingPage({ theme, toggleTheme }) {
                         Soluções completas para transformar sua presença digital
                     </p>
                     <div className={styles.servicesGrid}>
-                        <div className={styles.serviceCard}>
+                        <div
+                            className={styles.serviceCard}
+                            onClick={() => goToService('sites-institucionais')}
+                        >
                             <div className={styles.serviceIcon}>🌐</div>
                             <h3 className={styles.serviceTitle}>Sites Institucionais</h3>
                             <p className={styles.serviceDescription}>
@@ -86,9 +112,18 @@ function LandingPage({ theme, toggleTheme }) {
                                 <li>SEO otimizado</li>
                                 <li>Carregamento rápido</li>
                             </ul>
+                            <button
+                                className={styles.serviceMore}
+                                onClick={(e) => { e.stopPropagation(); goToService('sites-institucionais'); }}
+                            >
+                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
+                            </button>
                         </div>
 
-                        <div className={styles.serviceCard}>
+                        <div
+                            className={styles.serviceCard}
+                            onClick={() => goToService('sistemas-personalizados')}
+                        >
                             <div className={styles.serviceIcon}>⚙️</div>
                             <h3 className={styles.serviceTitle}>Sistemas Personalizados</h3>
                             <p className={styles.serviceDescription}>
@@ -100,9 +135,18 @@ function LandingPage({ theme, toggleTheme }) {
                                 <li>Controle total do negócio</li>
                                 <li>Integração com sistemas e plataformas externas</li>
                             </ul>
+                            <button
+                                className={styles.serviceMore}
+                                onClick={(e) => { e.stopPropagation(); goToService('sistemas-personalizados'); }}
+                            >
+                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
+                            </button>
                         </div>
 
-                        <div className={styles.serviceCard}>
+                        <div
+                            className={styles.serviceCard}
+                            onClick={() => goToService('ecommerce')}
+                        >
                             <div className={styles.serviceIcon}>🛒</div>
                             <h3 className={styles.serviceTitle}>E-commerce</h3>
                             <p className={styles.serviceDescription}>
@@ -114,9 +158,18 @@ function LandingPage({ theme, toggleTheme }) {
                                 <li>Pagamento integrado</li>
                                 <li>Painel administrativo</li>
                             </ul>
+                            <button
+                                className={styles.serviceMore}
+                                onClick={(e) => { e.stopPropagation(); goToService('ecommerce'); }}
+                            >
+                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
+                            </button>
                         </div>
 
-                        <div className={styles.serviceCard}>
+                        <div
+                            className={styles.serviceCard}
+                            onClick={() => goToService('manutencao-suporte')}
+                        >
                             <div className={styles.serviceIcon}>🔧</div>
                             <h3 className={styles.serviceTitle}>Manutenção & Suporte</h3>
                             <p className={styles.serviceDescription}>
@@ -128,6 +181,12 @@ function LandingPage({ theme, toggleTheme }) {
                                 <li>Atualizações regulares</li>
                                 <li>Backup automático</li>
                             </ul>
+                            <button
+                                className={styles.serviceMore}
+                                onClick={(e) => { e.stopPropagation(); goToService('manutencao-suporte'); }}
+                            >
+                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -194,42 +253,78 @@ function LandingPage({ theme, toggleTheme }) {
                 <div className={styles.sectionContainer}>
                     <div className={styles.aboutContent}>
                         <div className={styles.aboutText}>
-                            <h2 className={styles.sectionTitle}>Sobre a MultiAlmeida</h2>
+                            <div className={styles.aboutKicker}>
+                                Software sob medida • Processo claro • Entrega contínua
+                            </div>
+                            <h2 className={styles.aboutTitle}>
+                                Sobre a <span className={styles.highlight}>MultiAlmeida</span> Softwares
+                            </h2>
                             <p className={styles.aboutDescription}>
-                                A MultiAlmeida é uma software house focada no desenvolvimento 
-                                de sistemas e soluções digitais sob medida.
+                                Na MultiAlmeida Softwares, você fala direto com quem constrói. A gente traduz suas necessidades em
+                                soluções digitais que funcionam no dia a dia — com desempenho, segurança e experiência do usuário.
                             </p>
                             <p className={styles.aboutDescription}>
-                                Atuamos desde o planejamento até a entrega do software, 
-                                sempre com foco em performance, segurança e escalabilidade.
+                                Antes de escrever código, alinhamos objetivos, escopo e prioridades. Assim, você sabe o que será
+                                entregue, por quê, e qual o próximo passo — sem promessas vagas.
                             </p>
                             <p className={styles.aboutDescription}>
-                                <strong>Nossa missão:</strong> entregar tecnologia de alta qualidade, 
-                                com transparência, prazos claros e foco em resultados.
+                                <strong>Nosso compromisso:</strong> comunicação clara, prazos realistas e entregas evolutivas —
+                                com qualidade onde realmente importa.
                             </p>
-                            <div className={styles.aboutStats}>
-                                <div className={styles.stat}>
-                                    <div className={styles.statNumber}>💼</div>
-                                    <div className={styles.statLabel}>Desenvolvimento Personalizado</div>
-                                </div>
-                                <div className={styles.stat}>
-                                    <div className={styles.statNumber}>⚡</div>
-                                    <div className={styles.statLabel}>Entrega Ágil</div>
-                                </div>
-                                <div className={styles.stat}>
-                                    <div className={styles.statNumber}>🤝</div>
-                                    <div className={styles.statLabel}>Suporte Direto</div>
-                                </div>
+
+                            <div className={styles.aboutActions}>
+                                <button onClick={handleOpenModal} className={styles.primaryBtn}>
+                                    Solicitar Orçamento
+                                </button>
+                                <button onClick={() => scrollToSection('contact')} className={styles.secondaryBtn}>
+                                    Falar com a gente
+                                </button>
                             </div>
                         </div>
                         <div className={styles.aboutImage}>
                             <div className={styles.techStack}>
-                                <h3>Tecnologias que dominamos</h3>
+                                <h3 className={styles.techTitle}>Stack moderna, escolhida por projeto</h3>
+                                <p className={styles.techDescription}>
+                                    Usamos stacks modernas e estáveis — sem modismo. O foco é reduzir risco e acelerar entregas.
+                                </p>
                                 <div className={styles.techGrid}>
-                                    <div className={styles.techItem}>React.js</div>
+                                    <div className={styles.techItem}>React</div>
                                     <div className={styles.techItem}>Node.js</div>
-                                    <div className={styles.techItem}>JavaScript</div>
                                     <div className={styles.techItem}>MySQL</div>
+                                    <div className={styles.techItem}>JavaScript</div>
+                                </div>
+                                <p className={styles.techFootnote}>
+                                    Já tem um sistema rodando? A gente audita, corrige e evolui com segurança.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className={styles.aboutStats}>
+                            <div className={styles.stat}>
+                                <div className={styles.statNumber}>📌</div>
+                                <div className={styles.statText}>
+                                    <div className={styles.statTitle}>Escopo bem definido</div>
+                                    <div className={styles.statDescription}>
+                                        Do objetivo ao backlog: o que entra, o que fica para depois e por quê.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.stat}>
+                                <div className={styles.statNumber}>⚙️</div>
+                                <div className={styles.statText}>
+                                    <div className={styles.statTitle}>Entrega com método</div>
+                                    <div className={styles.statDescription}>
+                                        Entregas em etapas, validação rápida e evolução contínua.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.stat}>
+                                <div className={styles.statNumber}>🤝</div>
+                                <div className={styles.statText}>
+                                    <div className={styles.statTitle}>Suporte e evolução</div>
+                                    <div className={styles.statDescription}>
+                                        Ajustes, melhorias e acompanhamento pós-entrega.
+                                    </div>
                                 </div>
                             </div>
                         </div>

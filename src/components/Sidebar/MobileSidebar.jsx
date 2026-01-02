@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaMoon, FaSun, FaTimes } from "react-icons/fa";
 import styles from "./MobileSidebar.module.css";
 
 function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (isOpen) {
@@ -19,12 +20,29 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
   }, [isOpen]);
 
   const handleNavigate = (path) => {
+    if (path === "/" && location.pathname === "/") {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      onClose();
+      return;
+    }
+
     navigate(path);
     onClose();
   };
 
   const handleScrollTo = (sectionId) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname === "/") {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      onClose();
+      return;
+    }
+
+    navigate("/", { state: { scrollTo: sectionId } });
+    onClose();
+  };
+
+  const handleGoToService = (serviceSlug) => {
+    navigate("/servicos", { state: { scrollToService: serviceSlug } });
     onClose();
   };
 
@@ -78,19 +96,19 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
 
           <div className={styles.menuSection}>
             <span className={styles.menuSectionTitle}>Serviços</span>
-            <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("services")}>
+            <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("sites-institucionais")}>
               <span>🌐</span>
               <span>Sites Institucionais</span>
             </button>
-            <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("services")}>
+            <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("sistemas-personalizados")}>
               <span>⚙️</span>
               <span>Sistemas Personalizados</span>
             </button>
-            <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("services")}>
+            <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("ecommerce")}>
               <span>🛒</span>
               <span>E-commerce</span>
             </button>
-            <button className={styles.mobileSidebarItem} onClick={() => handleScrollTo("services")}>
+            <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("manutencao-suporte")}>
               <span>🔧</span>
               <span>Manutenção & Suporte</span>
             </button>
@@ -102,7 +120,9 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
               className={styles.mobileSidebarItem} 
               onClick={toggleTheme}
             >
-              {theme === "dark" ? <FaSun /> : <FaMoon />}
+              <span className={styles.itemIcon}>
+                {theme === "dark" ? <FaSun /> : <FaMoon />}
+              </span>
               <span>Tema {theme === "dark" ? "Claro" : "Escuro"}</span>
             </button>
           </div>

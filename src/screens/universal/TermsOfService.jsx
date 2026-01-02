@@ -3,8 +3,14 @@ import { useState, useEffect } from 'react';
 import styles from './LegalPages.module.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import useSeo from '../../utils/useSeo';
 
 function TermsOfService() {
+    useSeo({
+        title: 'Termos de Uso | MultiAlmeida Softwares',
+        description: 'Leia os Termos de Uso da MultiAlmeida Softwares e entenda as condições de utilização do site e serviços.',
+    });
+
     const navigate = useNavigate();
     const [theme, setTheme] = useState(() => {
         const savedTheme = localStorage.getItem('theme');

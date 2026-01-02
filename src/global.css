@@ -25,6 +25,21 @@
   --overlay-light: rgba(0, 0, 0, 0.3);
   --overlay-medium: rgba(0, 0, 0, 0.5);
   --overlay-strong: rgba(0, 0, 0, 0.7);
+
+  /* Aliases (compatibilidade com componentes/estilos tipo MultiAlmeida) */
+  --bg-color: var(--bg-primary);
+  --sidebar-bg: var(--bg-primary);
+  --hover-bg: var(--card-hover);
+  --active-bg: var(--accent-primary);
+  --primary-color: var(--accent-primary);
+  --text-color-light: var(--text-color);
+
+  /* Tokens específicos para Sidebar estilo MultiAlmeida */
+  /* Claro: sidebar em branco 'destacado' (off-white) */
+  --ma-sidebar-bg: var(--bg-secondary);
+  --ma-sidebar-border: var(--accent-primary);
+  --ma-sidebar-inset: var(--border-color);
+  --ma-sidebar-shadow: 4px 0 10px var(--shadow);
 }
 
 [data-theme="dark"] {
@@ -46,6 +61,21 @@
   --overlay-light: rgba(255, 255, 255, 0.3);
   --overlay-medium: rgba(255, 255, 255, 0.5);
   --overlay-strong: rgba(0, 0, 0, 0.7);
+
+  /* Aliases (mantém coerência no dark) */
+  --bg-color: var(--bg-primary);
+  --sidebar-bg: var(--bg-secondary);
+  --hover-bg: var(--card-hover);
+  --active-bg: var(--accent-primary);
+  --primary-color: var(--accent-primary);
+  --text-color-light: var(--text-color);
+
+  /* Tokens específicos para Sidebar estilo MultiAlmeida (dark) */
+  /* Escuro: sidebar preta, mas com um destaque sutil */
+  --ma-sidebar-bg: #0b0b0b;
+  --ma-sidebar-border: var(--border-color);
+  --ma-sidebar-inset: rgba(255, 255, 255, 0.08);
+  --ma-sidebar-shadow: 8px 0 22px rgba(0, 0, 0, 0.65);
 }
 
 html {
@@ -74,6 +104,11 @@ body {
   overflow-y: visible;
 }
 
+/* Travar scroll quando menus/sidebars mobile estiverem abertos */
+html.modal-open {
+  overflow: hidden;
+}
+
 /* Previne scroll horizontal quando sidebar está aberto */
 body.sidebar-open {
   overflow: hidden;
@@ -93,7 +128,15 @@ html::-webkit-scrollbar {
   width: 10px;
 }
 
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
 html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -102,12 +145,26 @@ html::-webkit-scrollbar-thumb {
   border-radius: 5px;
 }
 
+body::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 5px;
+}
+
 html::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+body::-webkit-scrollbar-thumb:hover {
   background: var(--accent-secondary);
 }
 
 /* Firefox */
 html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+
+body {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-primary) transparent;
 }

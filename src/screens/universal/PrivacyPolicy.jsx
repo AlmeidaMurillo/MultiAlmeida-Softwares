@@ -3,8 +3,14 @@ import { useState, useEffect } from 'react';
 import styles from './LegalPages.module.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import useSeo from '../../utils/useSeo';
 
 function PrivacyPolicy() {
+    useSeo({
+        title: 'Política de Privacidade | MultiAlmeida Softwares',
+        description: 'Leia a Política de Privacidade da MultiAlmeida Softwares e entenda como tratamos seus dados.',
+    });
+
     const navigate = useNavigate();
     const [theme, setTheme] = useState(() => {
         const savedTheme = localStorage.getItem('theme');
