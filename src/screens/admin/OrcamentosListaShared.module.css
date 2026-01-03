@@ -1,0 +1,470 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 0;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}
+
+.counter {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  font-weight: 700;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.control {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.controlGrow {
+  flex: 1 1 260px;
+}
+
+.controlFixed {
+  flex: 0 0 200px;
+}
+
+.input,
+.select {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  font-weight: 700;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.85;
+}
+
+.input:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.input:disabled,
+.select:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.scrollArea {
+  flex: 0 0 auto;
+  height: clamp(360px, 62vh, 760px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.1rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 5px;
+}
+
+.scrollArea::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Firefox */
+.scrollArea {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+
+.scrollArea .empty {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: grid;
+  gap: 0.75rem;
+  outline: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+.card:active {
+  transform: translateY(1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px var(--shadow-hover);
+  }
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.cardMain {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.cardTitleRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  font-weight: 800;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  background: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.meta {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.metaDot {
+  opacity: 0.7;
+}
+
+.openBtn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-weight: 700;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.openBtn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.openBtn:active {
+  background: var(--hover-bg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .openBtn:hover {
+    background: var(--hover-bg);
+  }
+}
+
+.preview {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.emptyText {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header > div:first-child {
+    width: 100%;
+  }
+
+  .title,
+  .subtitle {
+    text-align: center;
+  }
+
+  .counter {
+    align-self: center;
+  }
+
+  .emptyTitle,
+  .emptyText {
+    text-align: center;
+  }
+
+  .controlFixed {
+    flex: 1 1 auto;
+  }
+
+  .scrollArea {
+    padding: 0.9rem;
+    height: clamp(300px, 60vh, 660px);
+  }
+}
+
+@media (max-width: 340px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controlGrow,
+  .controlFixed {
+    flex: 1 1 auto;
+  }
+
+  .counter {
+    align-self: center;
+  }
+
+  .scrollArea {
+    padding: 0.8rem;
+    height: clamp(260px, 60vh, 600px);
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+  }
+
+  .cardTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card {
+    position: relative;
+  }
+
+  .cardTitle {
+    padding-right: 3.5rem;
+  }
+
+  .openBtn {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 240px) {
+  .page {
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls {
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controlGrow {
+    flex: 1 1 auto;
+  }
+
+  .controlFixed {
+    flex: 1 1 auto;
+  }
+
+  .counter {
+    align-self: center;
+  }
+
+  .input,
+  .select {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .counter {
+    padding: 0.45rem 0.6rem;
+  }
+
+  .scrollArea {
+    height: clamp(220px, 58vh, 520px);
+    padding: 0.75rem;
+    scrollbar-gutter: auto;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .card {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .cardTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .badge {
+    top: 0.55rem;
+    right: 0.55rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .openBtn {
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
