@@ -1,0 +1,621 @@
+.headerTop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4.5rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  box-shadow: 0 6px 20px var(--shadow);
+  z-index: 1001;
+  user-select: none;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.75rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  --app-header-height: clamp(3.5rem, 8vh, 4.5rem);
+  display: flex;
+  min-height: calc(100vh - var(--app-header-height));
+  margin-top: var(--app-header-height);
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar {
+  width: 260px;
+  position: fixed;
+  top: var(--app-header-height);
+  height: calc(100vh - var(--app-header-height));
+  background-color: var(--ma-sidebar-bg);
+  color: var(--text-color);
+  box-shadow: inset -1px 0 0 var(--ma-sidebar-inset), var(--ma-sidebar-shadow);
+  display: flex;
+  flex-direction: column;
+  z-index: 998;
+  overflow-y: auto;
+}
+
+.nav {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.collapsed .sidebar {
+  width: 100px;
+}
+
+.menuUl {
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.menuLi {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  color: var(--text-color);
+  background-color: transparent;
+  font-weight: 500;
+  user-select: none;
+  transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.menuLi:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.sidebar:not(.collapsed) .menuLi {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menuLi:active {
+  background-color: var(--hover-bg);
+  color: var(--text-color);
+  transform: translateX(5px);
+  box-shadow: inset 4px 0 0 var(--primary-color), 0 10px 22px var(--shadow);
+  border-left-color: var(--primary-color);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menuLi:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-color);
+    transform: translateX(5px);
+    box-shadow: inset 4px 0 0 var(--primary-color), 0 10px 22px var(--shadow);
+    border-left-color: var(--primary-color);
+  }
+}
+
+.menuButton:active {
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menuButton:hover {
+    outline: none;
+  }
+}
+
+.iconButton:active {
+  background-color: var(--hover-bg);
+  transform: scale(1.1);
+  color: var(--text-color); /* Garante que o ícone tenha contraste com o fundo de hover */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .iconButton:hover {
+    background-color: var(--hover-bg);
+    transform: scale(1.1);
+    color: var(--text-color); /* Garante que o ícone tenha contraste com o fundo de hover */
+  }
+}
+
+.iconWrapper:active {
+  color: var(--text-color); /* Garante que o ícone tenha contraste com o fundo de hover */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .iconWrapper:hover {
+    color: var(--text-color); /* Garante que o ícone tenha contraste com o fundo de hover */
+  }
+}
+
+.active:active {
+  background-color: var(--hover-bg);
+  box-shadow:
+    inset 4px 0 10px rgba(0, 0, 0, 0.15),
+    0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .active:hover {
+    background-color: var(--hover-bg);
+    box-shadow:
+      inset 4px 0 10px rgba(0, 0, 0, 0.15),
+      0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.icon {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.label {
+  flex-grow: 1;
+  font-size: 0.9rem;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.active {
+  background: var(--hover-bg);
+  font-weight: 700;
+  border-left: 4px solid var(--primary-color);
+  box-shadow:
+    inset 4px 0 10px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+  transform: translateX(5px);
+}
+
+.active .icon,
+.active .label {
+  color: var(--text-color) !important;
+}
+
+
+.pageContent {
+  flex: 1;
+  margin-left: 260px;
+  padding: 0;
+  width: calc(100% - 260px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: calc(100vh - var(--app-header-height));
+  height: auto;
+  overflow: visible;
+  background: var(--bg-color);
+}
+
+@supports (height: 100svh) {
+  .pageContent {
+    min-height: calc(100svh - var(--app-header-height));
+  }
+}
+
+@supports (height: 100dvh) {
+  .pageContent {
+    min-height: calc(100dvh - var(--app-header-height));
+  }
+}
+
+.pageContent.collapsed {
+  margin-left: 100px;
+  width: calc(100% - 100px);
+}
+
+.iconsContainer {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  margin-left: auto;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Adicionado para posicionamento correto do badge */
+}
+
+.iconButton:active {
+  background-color: var(--hover-bg);
+  transform: scale(1.1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .iconButton:hover {
+    background-color: var(--hover-bg);
+    transform: scale(1.1);
+  }
+}
+
+.iconWrapper {
+  position: relative;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 0.6rem;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.red {
+  background-color: red;
+}
+
+.black {
+  background-color: black;
+}
+
+/* Profile dropdown styles - igual ao Header */
+.profileWrapper {
+  position: relative;
+}
+
+.profileContainer {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.profileCircle {
+  width: clamp(32px, 5vw, 40px);
+  height: clamp(32px, 5vw, 40px);
+  border-radius: 50%;
+  background-color: var(--active-bg);
+  color: var(--input-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.profileContainer:active .profileCircle {
+  transform: scale(1.05);
+  border-color: var(--hover-bg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .profileContainer:hover .profileCircle {
+    transform: scale(1.05);
+    border-color: var(--hover-bg);
+  }
+}
+
+/* Dropdown de perfil */
+.profileDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background: var(--sidebar-bg, #1e1e1e);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: fadeInDown 0.2s ease-out;
+  z-index: 1000;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .dropdownHeader {
+  background: linear-gradient(135deg, #e8eaed, #f0f2f5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .dropdownAvatar {
+  background: var(--active-bg);
+  color: var(--input-bg);
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .dropdownRole {
+  background: var(--active-bg);
+  color: var(--input-bg);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--active-bg);
+  color: var(--input-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdownUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.dropdownUserInfo strong {
+  color: var(--text-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownUserInfo small {
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownRole {
+  display: inline-block;
+  background: var(--active-bg);
+  color: var(--input-bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0;
+}
+
+.dropdownItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.dropdownItem:active {
+  background: var(--hover-bg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dropdownItem:hover {
+    background: var(--hover-bg);
+  }
+}
+
+[data-theme="light"] .dropdownItem:active {
+  background: linear-gradient(135deg, #e8eaed, #f0f2f5);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .dropdownItem:hover {
+    background: linear-gradient(135deg, #e8eaed, #f0f2f5);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.dropdownItem svg {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Content Wrapper para separar conteúdo do footer */
+.contentWrapper {
+  flex: 1 0 auto;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    padding: 1rem;
+    min-height: 0;
+    flex: 1 0 auto;
+    overflow: visible;
+  }
+  
+  .sidebar {
+    width: 260px;
+    position: fixed;
+    top: var(--app-header-height);
+    height: calc(100vh - var(--app-header-height));
+    background-color: var(--ma-sidebar-bg);
+    color: var(--text-color);
+    box-shadow: inset -1px 0 0 var(--ma-sidebar-inset), var(--ma-sidebar-shadow);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 998;
+    overflow-y: auto;
+  }
+
+  .sidebar .nav {
+    padding-bottom: 80px;
+  }
+
+  .sidebar.mobileOpen {
+    width: 260px;
+    transform: translateX(0);
+  }
+
+  .pageContent {
+    margin-left: 0 !important;
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--app-header-height));
+    height: auto;
+    overflow: visible;
+    background: var(--bg-color);
+  }
+
+  @supports (height: 100svh) {
+    .pageContent {
+      min-height: calc(100svh - var(--app-header-height));
+    }
+  }
+
+  @supports (height: 100dvh) {
+    .pageContent {
+      min-height: calc(100dvh - var(--app-header-height));
+    }
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .headerTop {
+    padding: 0 0.75rem; /* A little more space */
+  }
+  .iconsContainer {
+    gap: 0.5rem; /* Adjust gap for medium-small screens */
+  }
+  .logoContainer {
+    margin-left: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .menuButton {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .iconButton {
+    font-size: 1.2rem;
+    padding: 0.4rem;
+  }
+}
+
+/* Drastic change for very small screens */
+@media (max-width: 340px) {
+  .headerTop {
+    height: auto; /* Allow header to grow */
+    flex-wrap: wrap; /* Allow items to wrap */
+    padding: 0.5rem 0.75rem;
+  }
+
+  .logoContainer {
+    order: 1; /* Place after menu button */
+  }
+
+  .iconsContainer {
+    order: 2; /* Force to the next line */
+    width: 100%; /* Take full width */
+    margin-top: 0.5rem; /* Space between rows */
+    margin-left: 0;
+    justify-content: space-between; /* Evenly space the icons */
+    gap: 0; /* Override previous gap */
+  }
+
+  /* Reduce profile circle size on the smallest screens */
+  .profileCircle {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 240px) {
+  .logo {
+    font-size: 1rem; /* Final shrink for the logo */
+  }
+
+  .iconButton {
+    font-size: 1rem;
+    padding: 0.3rem; /* Make icon buttons smaller */
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Estilos do modal antigo removidos - agora usando dropdown */
