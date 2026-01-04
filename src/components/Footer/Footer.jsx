@@ -26,13 +26,6 @@ function Footer() {
           >
             Termos de Uso
           </button>
-          <span className={styles.separator}>•</span>
-          <button 
-            onClick={() => navigate("/contrato-assinatura")} 
-            className={styles.footerLink}
-          >
-            Contrato de Assinatura
-          </button>
         </div>
       </div>
     </footer>

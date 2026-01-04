@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import styles from './Login.module.css';
 import useSeo from '../../../utils/useSeo';
-import { login as loginApi } from '../../../utils/auth';
-import { getMe } from '../../../utils/auth';
 
 function Login() {
     useSeo({
@@ -15,40 +12,13 @@ function Login() {
         noindex: true,
     });
 
-    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const timeoutRef = useRef(null);
-
-    useEffect(() => {
-        let alive = true;
-
-        // Se já estiver logado, não deixa acessar a tela de login.
-        (async () => {
-            try {
-                const me = await getMe();
-                if (!alive) return;
-                if (me?.user) {
-                    navigate('/admin/dashboard', { replace: true });
-                }
-            } catch {
-                // ignore
-            }
-        })();
-
-        return () => {
-            alive = false;
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-                timeoutRef.current = null;
-            }
-        };
-    }, [navigate]);
 
     const hasError = Boolean(error);
     const canSubmit = useMemo(() => {
@@ -58,34 +28,6 @@ function Login() {
 
     const clearErrorOnInput = () => {
         if (error) setError('');
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        clearErrorOnInput();
-
-        const safeEmail = email.trim().toLowerCase();
-        if (!safeEmail || !password) {
-            setError('Por favor, preencha e-mail e senha.');
-            return;
-        }
-
-        setIsLoading(true);
-
-        try {
-            const data = await loginApi({ email: safeEmail, password });
-            if (!data?.user) {
-                setError('Não foi possível carregar usuário.');
-                setIsLoading(false);
-                return;
-            }
-
-            setIsLoading(false);
-            navigate('/admin/dashboard');
-        } catch (e) {
-            setError(String(e?.message || 'Falha de conexão com o backend.'));
-            setIsLoading(false);
-        }
     };
 
     return (
@@ -99,7 +41,7 @@ function Login() {
                         <p className={styles.heroSubtitle}>Entre para acessar o painel administrativo.</p>
 
                         <div className={styles.loginForm}>
-                            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+                            <form className={styles.form}>
                                 <div className={styles.inputWrapper}>
                                     <FaUser className={styles.inputIcon} aria-hidden="true" />
                                     <input

@@ -50,22 +50,6 @@ function TermsOfService() {
                     <ul>
                         <li>Desenvolvimento de sites institucionais</li>
                         <li>Criação de sistemas personalizados</li>
-                        <li>Desenvolvimento de e-commerce</li>
-                        <li>Manutenção e suporte técnico</li>
-                    </ul>
-                    <p>
-                        Para ficar claro nosso modelo de negócio:
-                    </p>
-                    <ul>
-                        <li>
-                            <strong>Sistemas e e-commerce:</strong> normalmente são <strong>alugados por assinatura</strong> (mensalidade), podendo existir um valor de <strong>implantação/setup</strong>.
-                        </li>
-                        <li>
-                            <strong>Sites institucionais:</strong> são <strong>vendidos por projeto</strong> (escopo e prazo definidos, pagamento conforme combinado).
-                        </li>
-                        <li>
-                            <strong>Manutenção & suporte:</strong> podem ser contratados como <strong>adicional mensal</strong> (principalmente para sites vendidos e evoluções contínuas).
-                        </li>
                     </ul>
                     <p>
                         Os detalhes (escopo, prazos, valores, forma de pagamento, garantias e responsabilidades) serão definidos em proposta/contrato específico para cada contratação.

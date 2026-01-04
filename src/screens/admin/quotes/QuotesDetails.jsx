@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import detailsStyles from "./QuotesDetails.module.css";
-function getChannelLabel(value) {
-  return value === "email" ? "E-mail" : "WhatsApp";
-}
 
 export default function OrcamentoDetalhes({ id, backTo }) {
   const navigate = useNavigate();

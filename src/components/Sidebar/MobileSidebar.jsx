@@ -73,13 +73,6 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
             </button>
             <button 
               className={styles.mobileSidebarItem} 
-              onClick={() => handleScrollTo("portfolio")}
-            >
-              <span>💼</span>
-              <span>Portfólio</span>
-            </button>
-            <button 
-              className={styles.mobileSidebarItem} 
               onClick={() => handleScrollTo("about")}
             >
               <span>👥</span>
@@ -103,10 +96,6 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
             <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("sistemas-personalizados")}>
               <span>⚙️</span>
               <span>Sistemas Personalizados</span>
-            </button>
-            <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("ecommerce")}>
-              <span>🛒</span>
-              <span>E-commerce</span>
             </button>
             <button className={styles.mobileSidebarItem} onClick={() => handleGoToService("manutencao-suporte")}>
               <span>🔧</span>

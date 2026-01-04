@@ -20,12 +20,8 @@ function typeServicoLabel(value) {
       return "Site Institucional";
     case "sistema":
       return "Sistema Personalizado";
-    case "ecommerce":
-      return "E-commerce";
     case "manutencao":
       return "Manutenção & Suporte";
-    case "outro":
-      return "Outro";
     default:
       return value || "—";
   }
@@ -33,7 +29,7 @@ function typeServicoLabel(value) {
 
 function createMockItems() {
   const now = Date.now();
-  const tipos = ["site", "sistema", "ecommerce", "manutencao", "outro"];
+  const tipos = ["site", "sistema", "manutencao"];
   return Array.from({ length: 20 }, (_, index) => {
     const i = index + 1;
     const tipoServico = tipos[index % tipos.length];
@@ -47,11 +43,9 @@ function createMockItems() {
           ? "Site institucional (Home, Sobre, Serviços e Contato)."
           : tipoServico === "sistema"
           ? "Sistema simples para gestão interna e relatórios."
-          : tipoServico === "ecommerce"
-          ? "Loja online com catálogo e checkout."
           : tipoServico === "manutencao"
-          ? "Manutenção e melhorias no sistema existente."
-          : "Projeto personalizado: alinhar escopo e prioridades.",
+          ? "Manutenção e melhorias no site/sistema existente."
+          : "—",
     };
   });
 }
@@ -122,9 +116,7 @@ function ListaOrcamentosNovos() {
             <option value="todos">Todos os tipos</option>
             <option value="site">Site Institucional</option>
             <option value="sistema">Sistema Personalizado</option>
-            <option value="ecommerce">E-commerce</option>
             <option value="manutencao">Manutenção & Suporte</option>
-            <option value="outro">Outro</option>
           </select>
         </div>
 

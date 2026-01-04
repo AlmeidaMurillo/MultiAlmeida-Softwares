@@ -1,17 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Spinner from "./components/Spinner/Spinner";
-import { RequireAdmin } from './utils/auth';
 
 // Lazy loading dos componentes
 const LandingPage = lazy(() => import("./screens/clients/pages/LandingPage"));
 const Services = lazy(() => import("./screens/clients/services/Services"));
 const Login = lazy(() => import("./screens/admin/auth/Login"));
 const Dashboard = lazy(() => import("./screens/admin/pages/Dashboard"));
-const Planos = lazy(() => import("./screens/admin/pages/Planos"));
-const AtendimentoContratos = lazy(() => import("./screens/admin/pages/AtendimentoContratos"));
-const ContratosModelo = lazy(() => import("./screens/admin/pages/ContratosModelo"));
-const LogoutTest = lazy(() => import("./screens/admin/pages/LogoutTest"));
 const OrcamentosNovos = lazy(() => import("./screens/admin/quotes/QuotesNew"));
 const OrcamentosAguardando = lazy(() => import("./screens/admin/quotes/QuotesWaiting"));
 const OrcamentosAceitos = lazy(() => import("./screens/admin/quotes/QuotesAcepted"));
@@ -19,7 +14,6 @@ const OrcamentosRecusados = lazy(() => import("./screens/admin/quotes/QuotesRecu
 const OrcamentosDetalhes = lazy(() => import("./screens/admin/quotes/QuotesDetails"));
 const PrivacyPolicy = lazy(() => import("./screens/universal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./screens/universal/TermsOfService"));
-const ContractSubscription = lazy(() => import("./screens/universal/ContractSubscription"));
 const ServiceDetails = lazy(() => import("./screens/clients/services/ServiceDetails"));
 
 function App() {
@@ -43,119 +37,65 @@ function App() {
             <Route
               path="/admin/dashboard"
               element={
-                //<RequireAdmin>
-                  <Dashboard />
-                //</RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/planos"
-              element={
-                //<RequireAdmin>
-                  <Planos />
-                //</RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/atendimento-contratos"
-              element={
-                //<RequireAdmin>
-                  <AtendimentoContratos />
-                //</RequireAdmin>
-              }
-            />
-
-            <Route
-              path="/admin/logout-teste"
-              element={
-                //<RequireAdmin>
-                  <LogoutTest />
-                //</RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/contratos-modelo"
-              element={
-                //<RequireAdmin>
-                  <Navigate to="/admin/atendimento-contratos" replace />
-                //</RequireAdmin>
+                <Dashboard />
               }
             />
             <Route
               path="/admin/orcamentos"
               element={
-                //<RequireAdmin>
-                  <Navigate to="/admin/orcamentos/novos" replace />
-                //</RequireAdmin>
+                <Navigate to="/admin/orcamentos/novos" replace />
               }
             />
             <Route
               path="/admin/orcamentos/novos"
               element={
-                //<RequireAdmin>
-                  <OrcamentosNovos />
-                //</RequireAdmin>
+                <OrcamentosNovos />
               }
             />
             <Route
               path="/admin/orcamentos/novos/detalhes/:id"
               element={
-                //<RequireAdmin>
-                  <OrcamentosDetalhes />
-                //</RequireAdmin>
+                <OrcamentosDetalhes />
               }
             />
             <Route
               path="/admin/orcamentos/aguardando"
               element={
-                //<RequireAdmin>
-                  <OrcamentosAguardando />
-                //</RequireAdmin>
+                <OrcamentosAguardando />
               }
             />
             <Route
               path="/admin/orcamentos/aguardando/detalhes/:id"
               element={
-                //<RequireAdmin>
-                  <OrcamentosDetalhes />
-                //</RequireAdmin>
+                <OrcamentosDetalhes />
               }
             />
             <Route
               path="/admin/orcamentos/aceitos"
               element={
-                //<RequireAdmin>
-                  <OrcamentosAceitos />
-                //</RequireAdmin>
+                <OrcamentosAceitos />
               }
             />
             <Route
               path="/admin/orcamentos/aceitos/detalhes/:id"
               element={
-                //<RequireAdmin>
-                  <OrcamentosDetalhes />
-                //</RequireAdmin>
+                <OrcamentosDetalhes />
               }
             />
             <Route
               path="/admin/orcamentos/recusados"
               element={
-                //<RequireAdmin>
-                  <OrcamentosRecusados />
-                //</RequireAdmin>
+                <OrcamentosRecusados />
               }
             />
             <Route
               path="/admin/orcamentos/recusados/detalhes/:id"
               element={
-                //<RequireAdmin>
-                  <OrcamentosDetalhes />
-                //</RequireAdmin>
+                <OrcamentosDetalhes />
               }
             />
             <Route path="/politica-privacidade" element={<PrivacyPolicy />} />
             <Route path="/termos-uso" element={<TermsOfService />} />
-            <Route path="/contrato-assinatura" element={<ContractSubscription />} />
           </Routes>
         </Suspense>
       )}

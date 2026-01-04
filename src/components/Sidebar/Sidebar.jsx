@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FaHome, FaInbox, FaClock, FaCheckCircle, FaTimesCircle, FaFileContract, FaTags } from "react-icons/fa";
+import { FaHome, FaInbox, FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -12,7 +12,16 @@ const MenuItem = memo(function MenuItem({
   isActive,
   isCollapsed,
   onClick,
+  disabled,
 }) {
+  if (disabled) {
+    return (
+      <li className={styles.sectionLi} aria-hidden="true">
+        {!isCollapsed && <span className={styles.sectionLabel}>{label}</span>}
+      </li>
+    );
+  }
+
   return (
     <li
       tabIndex={0}
@@ -94,13 +103,11 @@ function Sidebar({ children }) {
 
   const menuItems = [
     { icon: <FaHome />, label: "Dashboard", path: "/admin/dashboard" },
-    { icon: <FaTags />, label: "Planos", path: "/admin/planos" },
-    { icon: <FaFileContract />, label: "Atendimento & Contratos", path: "/admin/atendimento-contratos" },
     { icon: <FaInbox />, label: "Orçamentos (Novos)", path: "/admin/orcamentos/novos" },
     { icon: <FaClock />, label: "Aguardando Cliente", path: "/admin/orcamentos/aguardando" },
     { icon: <FaCheckCircle />, label: "Aceitos", path: "/admin/orcamentos/aceitos" },
     { icon: <FaTimesCircle />, label: "Recusados", path: "/admin/orcamentos/recusados" },
-    { icon: <FaSignOutAlt />, label: "Logout (Teste)", path: "/admin/logout-teste" },
+    { icon: <FaSignOutAlt />, label: "Sair", action: "logout" },
   ];
 
   // Desabilita rolagem do html apenas quando o menu mobile está aberto
@@ -138,15 +145,23 @@ function Sidebar({ children }) {
         >
           <nav className={styles.nav} id="sidebar-navigation">
             <ul className={styles.menuUl}>
-              {menuItems.map(({ icon, label, path }) => (
+              {menuItems.map(({ icon, label, path, action }) => (
                 <MenuItem
-                  key={path}
+                  key={path || label}
                   icon={icon}
                   label={label}
                   isCollapsed={window.innerWidth <= 768 ? false : isCollapsed}
                   isActive={isActive(path)}
-                  onClick={() => {
-                    handleMenuItemClick(path);
+                  disabled={!path && !action}
+                  onClick={async () => {
+                    if (path) {
+                      handleMenuItemClick(path);
+                      return;
+                    }
+
+                    if (action === 'logout') {
+                      navigate('/admin/login', { replace: true });
+                    }
                   }}
                 />
               ))}

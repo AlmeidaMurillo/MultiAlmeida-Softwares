@@ -216,10 +216,8 @@ function QuoteModal({ isOpen, onClose }) {
                                     <option value="">Selecione um serviço</option>
                                     <option value="site">🌐 Site Institucional</option>
                                     <option value="sistema">💻 Sistema Personalizado</option>
-                                    <option value="ecommerce">🛒 E-commerce</option>
                                     <option value="manutencao">🔧 Manutenção & Suporte</option>
-                                    <option value="outro">Outro</option>
-
+                                    
                                 </select>
                             </div>
 

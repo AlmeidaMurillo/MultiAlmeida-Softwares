@@ -1,81 +1,92 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.css';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import QuoteModal from '../../../components/QuoteModal/QuoteModal';
 import useSeo from '../../../utils/useSeo';
+import headerStyles from '../../../components/Header/Header.module.css';
+import { FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const CONTACT_EMAIL = 'contato@multialmeida.com.br';
+const CONTACT_EMAIL_GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}`;
 
-function formatBRLFromCents(cents) {
-    if (cents == null) return null;
-    const value = Number(cents) / 100;
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
+const SAAS_PRODUCTS = [
+    {
+        key: 'gestao',
+        subtitle: 'Gestão Empresarial',
+        title: 'Sistema de Gestão Empresarial',
+        description: 'SaaS para gestão do negócio: cadastros, processos e visibilidade operacional.',
+        features: ['Estrutura para múltiplos módulos', 'Perfis e permissões', 'Painel de indicadores'],
+        url: import.meta.env.VITE_SAAS_GESTAO_URL || '',
+    },
+    {
+        key: 'commerce',
+        subtitle: 'E-Commerce',
+        title: 'Plataforma de E-commerce',
+        description: 'SaaS para vender online com operação organizada e base pronta para evolução.',
+        features: ['Catálogo e variações', 'Fluxos de pedidos', 'Base para integrações'],
+        url: import.meta.env.VITE_SAAS_COMMERCE_URL || '',
+    },
+    {
+        key: 'agenda',
+        subtitle: 'Agendamentos',
+        title: 'Sistema de Agendamentos',
+        description: 'SaaS de agendamento para organizar horários, rotina e atendimento.',
+        features: ['Agenda e disponibilidade', 'Cadastro de clientes', 'Rotinas de atendimento'],
+        url: import.meta.env.VITE_SAAS_AGENDA_URL || '',
+    },
+];
+
+const SERVICE_OPTIONS = [
+    { key: 'sites-institucionais', label: 'Sites Institucionais (Projeto)', icon: '🌐' },
+    { key: 'sistemas-personalizados', label: 'Sistemas (Sob Medida)', icon: '💻' },
+    { key: 'manutencao-suporte', label: 'Manutenção & Suporte', icon: '🔧' },
+];
+
+const SERVICE_COPY = {
+    'sites-institucionais': {
+        title: 'Sites Institucionais',
+        description: 'Sites modernos e responsivos para apresentar sua empresa com clareza e gerar oportunidades.',
+        features: ['Design responsivo (mobile-first)', 'SEO básico', 'Alta performance'],
+    },
+    'sistemas-personalizados': {
+        title: 'Sistemas Personalizados',
+        description: 'Sistemas sob medida para automatizar processos, reduzir retrabalho e dar visibilidade ao seu negócio.',
+        features: ['Painel administrativo (quando aplicável)', 'Perfis de acesso e permissões', 'Relatórios e dashboards'],
+    },
+    'manutencao-suporte': {
+        title: 'Manutenção & Suporte',
+        description: 'Correções, melhorias e acompanhamento para manter seu site/sistema estável, rápido e atualizado.',
+        features: ['Correções e ajustes', 'Melhorias contínuas', 'Recomendações de segurança'],
+    },
+};
 
 function LandingPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-    const [plans, setPlans] = useState([]);
 
     useSeo({
         title: 'MultiAlmeida Softwares | Desenvolvimento de Sites e Sistemas',
-        description: 'Criamos sites modernos, sistemas sob medida e e-commerce com foco em performance, segurança e conversão.',
+        description: 'Criamos sites modernos e sistemas sob medida com foco em performance, segurança e conversão.',
     });
 
     const scrollToSection = (sectionId) => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
+    const handleOpenModal = () => setModalOpen(true);
+    const handleCloseModal = () => setModalOpen(false);
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
-    const goToService = (serviceSlug) => {
-        navigate('/servicos', { state: { scrollToService: serviceSlug } });
-    };
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function loadPlans() {
-            try {
-                const res = await fetch(`${API_BASE}/api/plans?active=true`);
-                const data = await res.json();
-                if (!res.ok) return;
-                if (!cancelled) setPlans(Array.isArray(data) ? data : []);
-            } catch {
-                // Se o backend estiver desligado, apenas não mostra preços dinâmicos
-            }
+    const goToSaas = (product) => {
+        const url = String(product?.url || '').trim();
+        if (url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+            return;
         }
-
-        loadPlans();
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
-    const groupedPlans = useMemo(() => {
-        const by = {
-            rental: [],
-            sale: [],
-            addon: [],
-        };
-
-        for (const p of plans) {
-            if (p.model === 'rental') by.rental.push(p);
-            if (p.model === 'sale') by.sale.push(p);
-            if (p.model === 'addon') by.addon.push(p);
-        }
-
-        return by;
-    }, [plans]);
+        scrollToSection('contact');
+    };
 
     useEffect(() => {
         const sectionId = location.state?.scrollTo;
@@ -89,29 +100,29 @@ function LandingPage() {
 
     return (
         <div className={styles.landingContainer}>
-            {/* Header */}
-            <Header 
-                onOpenQuote={handleOpenModal}
-            />
+            <Header onOpenQuote={handleOpenModal} />
 
             {/* Hero Section */}
             <section id="home" className={styles.hero}>
                 <div className={styles.heroContent}>
                     <div className={styles.heroText}>
                         <h1 className={styles.heroTitle}>
-                            Transformamos suas <span className={styles.highlight}>ideias</span> em 
+                            Transformamos suas <span className={styles.highlight}>ideias</span> em
                             <span className={styles.highlight}> soluções digitais</span>
                         </h1>
                         <p className={styles.heroSubtitle}>
-                            Desenvolvimento de sistemas personalizados e sites modernos  
-                            que impulsionam seu negócio para o próximo nível.
+                            Desenvolvimento de sites institucionais e sistemas personalizados
+                            para impulsionar seu negócio com clareza e performance.
                         </p>
                         <div className={styles.heroButtons}>
                             <button onClick={handleOpenModal} className={styles.primaryBtn}>
                                 Solicitar Orçamento
                             </button>
+                            <button onClick={() => scrollToSection('saas')} className={styles.secondaryBtn}>
+                                Ver SaaS
+                            </button>
                             <button onClick={() => scrollToSection('services')} className={styles.secondaryBtn}>
-                                Conheça nossos serviços
+                                Ver serviços
                             </button>
                         </div>
                     </div>
@@ -132,317 +143,96 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* Services Section */}
-            <section id="services" className={styles.services}>
+            {/* Produtos SaaS Section */}
+            <section id="saas" className={`${styles.services} ${styles.saasSection}`}>
                 <div className={styles.sectionContainer}>
-                    <h2 className={styles.sectionTitle}>Nossos Serviços</h2>
+                    <h2 className={styles.sectionTitle}>Produtos SaaS</h2>
                     <p className={styles.sectionSubtitle}>
-                        Soluções completas para transformar sua presença digital
+                        Produtos SaaS da MultiAlmeida Softwares: soluções prontas desenvolvidas e mantidas pela nossa equipe
                     </p>
-                    <div className={styles.servicesGrid}>
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('sites-institucionais')}
-                        >
-                            <div className={styles.serviceIcon}>🌐</div>
-                            <h3 className={styles.serviceTitle}>Sites Institucionais</h3>
-                            <p className={styles.serviceDescription}>
-                                Sites modernos e responsivos que representam sua marca com profissionalismo 
-                                e atraem mais clientes.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Design responsivo</li>
-                                <li>SEO otimizado</li>
-                                <li>Carregamento rápido</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('sites-institucionais'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
 
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('sistemas-personalizados')}
-                        >
-                            <div className={styles.serviceIcon}>⚙️</div>
-                            <h3 className={styles.serviceTitle}>Sistemas Personalizados</h3>
-                            <p className={styles.serviceDescription}>
-                                Desenvolvimento de sistemas sob medida para otimizar os processos 
-                                do seu negócio.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Automação de processos</li>
-                                <li>Controle total do negócio</li>
-                                <li>Integração com sistemas e plataformas externas</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('sistemas-personalizados'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                    <div className={styles.planShowcaseGrid}>
+                        {SAAS_PRODUCTS.map((p) => (
+                            <article key={p.key} className={styles.planCard}>
+                                <div className={styles.planCardTop}>
+                                    <div className={headerStyles.logoContainer}>
+                                        <div className={headerStyles.logo}>MultiAlmeida</div>
+                                        <h2 className={headerStyles.subtitle}>{p.subtitle}</h2>
+                                    </div>
+                                    <div className={styles.planCardBadge}>SaaS</div>
+                                </div>
 
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('ecommerce')}
-                        >
-                            <div className={styles.serviceIcon}>🛒</div>
-                            <h3 className={styles.serviceTitle}>E-commerce</h3>
-                            <p className={styles.serviceDescription}>
-                                Lojas virtuais completas com sistema de pagamento integrado e 
-                                gestão de produtos.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Carrinho de compras</li>
-                                <li>Pagamento integrado</li>
-                                <li>Painel administrativo</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('ecommerce'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                                <div className={styles.planCardPrice}>
+                                    <span className={styles.planCardPriceValue}>{p.title}</span>
+                                </div>
 
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('sistema-agendamento')}
-                        >
-                            <div className={styles.serviceIcon}>📅</div>
-                            <h3 className={styles.serviceTitle}>Sistema de Agendamento</h3>
-                            <p className={styles.serviceDescription}>
-                                Sistema para agenda online, controle de horários e gestão de clientes para otimizar o atendimento.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Agenda e disponibilidade</li>
-                                <li>Painel administrativo</li>
-                                <li>Relatórios básicos</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('sistema-agendamento'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                                <ul className={styles.planCardHighlights}>
+                                    {(p.features || []).map((f) => (
+                                        <li key={f}>{f}</li>
+                                    ))}
+                                </ul>
 
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('sistema-delivery')}
-                        >
-                            <div className={styles.serviceIcon}>🛵</div>
-                            <h3 className={styles.serviceTitle}>Sistema Delivery</h3>
-                            <p className={styles.serviceDescription}>
-                                Sistema de pedidos online com gestão de cardápio e fluxo de pedidos para delivery, com operação mais rápida.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Pedidos online</li>
-                                <li>Gestão de cardápio</li>
-                                <li>Status e acompanhamento</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('sistema-delivery'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
-
-                        <div
-                            className={styles.serviceCard}
-                            onClick={() => goToService('manutencao-suporte')}
-                        >
-                            <div className={styles.serviceIcon}>🔧</div>
-                            <h3 className={styles.serviceTitle}>Manutenção & Suporte</h3>
-                            <p className={styles.serviceDescription}>
-                                Suporte técnico contínuo e manutenção para manter seus sistemas 
-                                sempre atualizados.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Suporte 24/7</li>
-                                <li>Atualizações regulares</li>
-                                <li>Backup automático</li>
-                            </ul>
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => { e.stopPropagation(); goToService('manutencao-suporte'); }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                                <div className={styles.planCardActions}>
+                                    <button
+                                        className={styles.planCardPrimaryBtn}
+                                        onClick={() => goToSaas(p)}
+                                    >
+                                        Acessar
+                                    </button>
+                                    <button
+                                        className={styles.planCardSecondaryBtn}
+                                        onClick={handleOpenModal}
+                                    >
+                                        Falar com a gente
+                                    </button>
+                                </div>
+                            </article>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* Pricing / Plans */}
-            <section id="plans" className={styles.services}>
+            {/* Services / Produtos Section */}
+            <section id="services" className={`${styles.services} ${styles.customServicesSection}`}>
                 <div className={styles.sectionContainer}>
-                    <h2 className={styles.sectionTitle}>Planos e Preços</h2>
+                    <h2 className={styles.sectionTitle}>Serviços sob medida</h2>
                     <p className={styles.sectionSubtitle}>
-                        Aqui fica bem claro: <strong>sistemas são alugados por assinatura</strong> e <strong>sites institucionais são vendidos por projeto</strong>.
+                        Projetos personalizados: desenvolvimento sob demanda conforme seu objetivo
                     </p>
 
-                    <div className={styles.servicesGrid}>
-                        <div className={styles.serviceCard} onClick={() => goToService('ecommerce')}>
-                            <div className={styles.serviceIcon}>🟦</div>
-                            <h3 className={styles.serviceTitle}>Sistemas por assinatura (Aluguel)</h3>
-                            <p className={styles.serviceDescription}>
-                                E-commerce e sistemas com login, dados e rotina: você paga mensalmente e recebe suporte e atualizações.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>E-commerce</li>
-                                <li>Sistemas Personalizados</li>
-                                <li>Sistemas Agendamentos</li>
-                                <li>Sistemas Delivery</li>
-                            </ul>
-                            {groupedPlans.rental.length > 0 && (
-                                <ul className={styles.serviceFeatures}>
-                                    {groupedPlans.rental.slice(0, 3).map((p) => (
-                                        <li key={p.id}>
-                                            {p.name}
-                                            {p.price_monthly_cents != null ? ` — ${formatBRLFromCents(p.price_monthly_cents)}/mês` : ''}
-                                            {p.price_setup_cents != null && p.price_setup_cents > 0
-                                                ? ` + setup ${formatBRLFromCents(p.price_setup_cents)}`
-                                                : ''}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    goToService('sistemas-personalizados');
-                                }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                    <div className={styles.planShowcaseGrid}>
+                        {SERVICE_OPTIONS.map((o) => {
+                            const copy = SERVICE_COPY[o.key];
+                            return (
+                                <article key={o.key} className={styles.planCard}>
+                                    <div className={styles.planCardTop}>
+                                        <div className={styles.planCardName}>{copy?.title || o.label}</div>
+                                    </div>
 
-                        <div className={styles.serviceCard} onClick={() => goToService('sites-institucionais')}>
-                            <div className={styles.serviceIcon}>🟨</div>
-                            <h3 className={styles.serviceTitle}>Sites institucionais (Venda)</h3>
-                            <p className={styles.serviceDescription}>
-                                Site é produto: projeto fechado com escopo definido. Manutenção é opcional.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Site institucional</li>
-                                <li>Landing page</li>
-                                <li>Site vitrine</li>
-                            </ul>
-                            {groupedPlans.sale.length > 0 && (
-                                <ul className={styles.serviceFeatures}>
-                                    {groupedPlans.sale.slice(0, 2).map((p) => (
-                                        <li key={p.id}>
-                                            {p.name}
-                                            {p.price_one_time_cents != null ? ` — ${formatBRLFromCents(p.price_one_time_cents)}` : ''}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    goToService('sites-institucionais');
-                                }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
+                                    <div className={styles.planCardPrice}>
+                                        <span className={styles.planCardPriceValue}>Sob consulta</span>
+                                    </div>
 
-                        <div className={styles.serviceCard} onClick={() => goToService('manutencao-suporte')}>
-                            <div className={styles.serviceIcon}>🔧</div>
-                            <h3 className={styles.serviceTitle}>Suporte & Manutenção</h3>
-                            <p className={styles.serviceDescription}>
-                                Pode ser contratado à parte para sites vendidos e para sistemas (quando aplicável), com valor mensal.
-                            </p>
-                            <ul className={styles.serviceFeatures}>
-                                <li>Correções e pequenas melhorias</li>
-                                <li>Atualizações e estabilidade</li>
-                                <li>Atendimento contínuo</li>
-                            </ul>
-                            {groupedPlans.addon.length > 0 && (
-                                <ul className={styles.serviceFeatures}>
-                                    {groupedPlans.addon.slice(0, 2).map((p) => (
-                                        <li key={p.id}>
-                                            {p.name}
-                                            {p.price_monthly_cents != null ? ` — ${formatBRLFromCents(p.price_monthly_cents)}/mês` : ''}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            <button
-                                className={styles.serviceMore}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    goToService('manutencao-suporte');
-                                }}
-                            >
-                                Saiba mais <span className={styles.serviceMoreArrow}>→</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                                    <ul className={styles.planCardHighlights}>
+                                        {(copy?.features || []).map((f) => (
+                                            <li key={f}>{f}</li>
+                                        ))}
+                                    </ul>
 
-            {/* Portfolio Section */}
-            <section id="portfolio" className={styles.portfolio}>
-                <div className={styles.sectionContainer}>
-                    <h2 className={styles.sectionTitle}>Tipos de Projetos que Desenvolvemos</h2>
-                    <p className={styles.sectionSubtitle}>
-                        Exemplos de soluções que podemos criar para seu negócio
-                    </p>
-                    <div className={styles.portfolioGrid}>
-                        <div className={styles.portfolioItem}>
-                            <div className={styles.portfolioImage}>
-                                <div className={styles.portfolioPlaceholder}>🏢</div>
-                            </div>
-                            <div className={styles.portfolioInfo}>
-                                <h3>Sistema de Gestão Empresarial</h3>
-                                <p>Plataforma completa para gerenciamento de vendas, estoque e finanças</p>
-                                <div className={styles.portfolioTags}>
-                                    <span>React.js</span>
-                                    <span>Node.js</span>
-                                    <span>MySQL</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.portfolioItem}>
-                            <div className={styles.portfolioImage}>
-                                <div className={styles.portfolioPlaceholder}>🛍️</div>
-                            </div>
-                            <div className={styles.portfolioInfo}>
-                                <h3>E-commerce de Moda</h3>
-                                <p>Loja virtual com mais de 1000 produtos e sistema de gestão integrado</p>
-                                <div className={styles.portfolioTags}>
-                                    <span>React.js</span>
-                                    <span>Node.js</span>
-                                    <span>MySQL</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.portfolioItem}>
-                            <div className={styles.portfolioImage}>
-                                <div className={styles.portfolioPlaceholder}>📊</div>
-                            </div>
-                            <div className={styles.portfolioInfo}>
-                                <h3>Dashboard Analytics</h3>
-                                <p>Plataforma de análise de dados com visualizações interativas em tempo real</p>
-                                <div className={styles.portfolioTags}>
-                                    <span>React.js</span>
-                                    <span>Node.js</span>
-                                    <span>JavaScript</span>
-                                </div>
-                            </div>
-                        </div>
+                                    <div className={styles.planCardActions}>
+                                        <button className={styles.planCardPrimaryBtn} onClick={handleOpenModal}>
+                                            Solicitar orçamento
+                                        </button>
+                                        <button
+                                            className={styles.planCardSecondaryBtn}
+                                            onClick={() => navigate(`/servicos/${o.key}`)}
+                                        >
+                                            Saiba mais
+                                        </button>
+                                    </div>
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -540,23 +330,65 @@ function LandingPage() {
                     </p>
                     <div className={styles.contactContent}>
                         <div className={styles.contactInfo}>
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>📧</div>
+                            <div
+                                className={`${styles.contactItem} ${styles.contactItemWithSend}`}
+                                role="link"
+                                tabIndex={0}
+                                onClick={() => {
+                                    const newTab = window.open(CONTACT_EMAIL_GMAIL_COMPOSE_URL, '_blank', 'noopener,noreferrer');
+                                    if (!newTab) window.location.href = `mailto:${CONTACT_EMAIL}`;
+                                }}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter' || event.key === ' ') {
+                                        event.preventDefault();
+                                        const newTab = window.open(CONTACT_EMAIL_GMAIL_COMPOSE_URL, '_blank', 'noopener,noreferrer');
+                                        if (!newTab) window.location.href = `mailto:${CONTACT_EMAIL}`;
+                                    }
+                                }}
+                            >
+                                <div className={styles.contactIcon} aria-hidden="true">
+                                    <FaEnvelope />
+                                </div>
                                 <div>
                                     <h3>Email</h3>
-                                    <p>contato@multialmeida.com.br</p>
+                                    <p>{CONTACT_EMAIL}</p>
                                 </div>
+                                <a
+                                    className={styles.contactSend}
+                                    href={CONTACT_EMAIL_GMAIL_COMPOSE_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={`Enviar e-mail para ${CONTACT_EMAIL}`}
+                                    onClick={(event) => event.stopPropagation()}
+                                >
+                                    Enviar
+                                </a>
                             </div>
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>📱</div>
+
+                            <div className={`${styles.contactItem} ${styles.contactItemWithSend}`}>
+                                <div className={styles.contactIcon} aria-hidden="true">
+                                    <FaWhatsapp />
+                                </div>
                                 <div>
                                     <h3>WhatsApp</h3>
                                     <p style={{ marginBottom: '8px', fontWeight: '500' }}>Atendimento rápido e direto com desenvolvedor responsável.</p>
                                     <p>(11) 97054-3189</p>
                                 </div>
+                                <a
+                                    className={styles.contactSend}
+                                    href="https://wa.me/5511970543189"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Enviar mensagem no WhatsApp"
+                                >
+                                    Enviar
+                                </a>
                             </div>
+
                             <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>📍</div>
+                                <div className={styles.contactIcon} aria-hidden="true">
+                                    <FaMapMarkerAlt />
+                                </div>
                                 <div>
                                     <h3>Localização</h3>
                                     <p>Brasil - Atendimento Nacional</p>

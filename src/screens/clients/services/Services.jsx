@@ -45,83 +45,31 @@ const servicesCatalog = [
         ],
     },
     {
-        id: "ecommerce",
-        slug: "ecommerce",
-        title: "E-commerce",
-        tagline: "Venda online com eficiência",
-        icon: "🛒",
-        summary:
-            "Lojas virtuais completas para vender online com checkout otimizado e gestão de catálogo.",
-        technologies: ["React", "Node.js", "MySQL", "Checkout", "Pagamentos", "Integrações"],
-        highlights: ["Conversão otimizada", "Pagamentos seguros", "Gestão de vendas"],
-        included: [
-            "Catálogo de produtos e categorias",
-            "Carrinho e checkout",
-            "Integração com pagamento e frete (quando aplicável)",
-            "Área administrativa para pedidos e produtos",
-            "Otimização para conversão e performance",
-        ],
-    },
-    {
-        id: "sistema-agendamento",
-        slug: "sistema-agendamento",
-        title: "Sistema de Agendamento",
-        tagline: "Agenda online e gestão de horários",
-        icon: "📅",
-        summary:
-            "Sistema para agendamentos com controle de horários, clientes e rotinas do seu negócio, com acesso pela web.",
-        technologies: ["React", "Node.js", "MySQL"],
-        highlights: ["Organização", "Menos faltas", "Atendimento mais rápido"],
-        included: [
-            "Agenda com horários e disponibilidade",
-            "Cadastro de clientes e serviços",
-            "Painel administrativo",
-            "Notificações e confirmações (quando aplicável)",
-            "Relatórios básicos (conforme escopo)",
-        ],
-    },
-    {
-        id: "sistema-delivery",
-        slug: "sistema-delivery",
-        title: "Sistema Delivery",
-        tagline: "Pedidos online e gestão de entregas",
-        icon: "🛵",
-        summary:
-            "Sistema de pedidos online para delivery com gestão de cardápio, pedidos e operação, focado em velocidade e clareza.",
-        technologies: ["React", "Node.js", "MySQL"],
-        highlights: ["Pedidos rápidos", "Operação organizada", "Controle de vendas"],
-        included: [
-            "Cardápio / catálogo",
-            "Fluxo de pedidos (recebimento e status)",
-            "Painel administrativo",
-            "Cupons e promoções (quando aplicável)",
-            "Relatórios básicos (conforme escopo)",
-        ],
-    },
-    {
         id: "manutencao-suporte",
         slug: "manutencao-suporte",
         title: "Manutenção & Suporte",
         tagline: "Estabilidade e evolução contínua",
         icon: "🛠",
         summary:
-            "Evolução contínua, correções e melhorias para manter seu site/sistema rápido, seguro e atualizado.",
+            "Correções, melhorias e evolução contínua para manter seu site/sistema rápido, seguro e atualizado.",
         technologies: ["Monitoramento", "Correções", "Atualizações", "Boas práticas"],
         highlights: ["Resposta rápida", "Qualidade contínua", "Risco reduzido"],
         included: [
             "Correções de bugs e ajustes",
             "Atualizações de dependências",
             "Melhorias de performance",
-            "Backups e recomendações de segurança",
+            "Recomendações de segurança",
             "Suporte por demanda ou recorrente",
         ],
     },
 ];
 
+const servicesCatalogFiltered = servicesCatalog;
+
 function getBusinessModelText(slug) {
     if (slug === 'sites-institucionais') return 'Venda (projeto fechado).';
     if (slug === 'manutencao-suporte') return 'Adicional mensal (manutenção e suporte).';
-    return 'Aluguel por assinatura (mensalidade + possíveis ajustes/implantação).';
+    return 'Sob orçamento (projeto).';
 }
 
 function Services() {
@@ -131,14 +79,14 @@ function Services() {
 
     useSeo({
         title: "Serviços | MultiAlmeida Softwares",
-        description: "Conheça nossos serviços: sites institucionais, sistemas personalizados, e-commerce, sistema de agendamento, sistema delivery e manutenção/suporte.",
+        description: "Conheça nossos serviços: sites institucionais, sistemas personalizados e manutenção/suporte.",
     });
 
     useEffect(() => {
         document.title = "Serviços | MultiAlmeida Softwares";
     }, []);
 
-    const services = useMemo(() => servicesCatalog, []);
+    const services = useMemo(() => servicesCatalogFiltered, []);
 
     useEffect(() => {
         const targetFromState = location.state?.scrollToService;
@@ -167,7 +115,7 @@ function Services() {
                             Soluções Completas Em <span className={styles.titleAccent}>Software</span>
                         </h1>
                         <p className={styles.subtitle}>
-                            Do planejamento ao lançamento, entregamos sites, sistemas e e-commerce com foco em performance, segurança e resultado.
+                            Do planejamento ao lançamento, entregamos sites e sistemas com foco em performance, segurança e resultado.
                         </p>
                     </div>
                 </section>

@@ -360,6 +360,72 @@
     transition: transform 0.2s ease;
 }
 
+.plansGrid {
+    margin-top: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.planCard {
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    border-radius: 14px;
+    padding: 0.85rem;
+}
+
+.planName {
+    font-weight: 900;
+    color: var(--text-color);
+}
+
+.planPrice {
+    margin-top: 0.35rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.planMeta {
+    margin-top: 0.35rem;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.planActions {
+    margin-top: 0.75rem;
+}
+
+.planBtn {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-weight: 900;
+}
+
+.planEmpty {
+    margin: 0.35rem 0 0;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.planError {
+    margin: 0.35rem 0 0;
+    color: var(--danger-color);
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .plansGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (hover: hover) and (pointer: fine) {
     .moreButton:hover {
         transform: translateY(-2px);

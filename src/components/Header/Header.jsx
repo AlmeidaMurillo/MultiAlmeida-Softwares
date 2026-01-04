@@ -160,13 +160,6 @@ function Header({
                       Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
                     </span>
                   </button>
-                  <button className={styles.dropdownLink} onClick={() => goToServicesPage("ecommerce")}>
-                    <span className={styles.dropdownIcon}>🛒</span>
-                    <span className={styles.dropdownText}>E-commerce</span>
-                    <span className={styles.dropdownCta} aria-hidden="true">
-                      Saiba mais <span className={styles.dropdownCtaArrow}>→</span>
-                    </span>
-                  </button>
                   <button className={styles.dropdownLink} onClick={() => goToServicesPage("manutencao-suporte")}>
                     <span className={styles.dropdownIcon}>🔧</span>
                     <span className={styles.dropdownText}>Manutenção & Suporte</span>
@@ -177,12 +170,6 @@ function Header({
                 </div>
               )}
             </div>
-            <button
-              className={styles.navLink}
-              onClick={() => goToLandingSection("portfolio")}
-            >
-              Portfólio
-            </button>
             <button
               className={styles.navLink}
               onClick={() => goToLandingSection("about")}
