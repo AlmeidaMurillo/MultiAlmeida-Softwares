@@ -36,9 +36,9 @@
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    rgba(102, 126, 234, 0.18) 0%,
-    rgba(118, 75, 162, 0.12) 50%,
-    rgba(102, 126, 234, 0) 100%
+    rgba(107, 107, 107, 0.18) 0%,
+    rgba(74, 74, 74, 0.12) 50%,
+    rgba(107, 107, 107, 0) 100%
   );
   pointer-events: none;
   mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);

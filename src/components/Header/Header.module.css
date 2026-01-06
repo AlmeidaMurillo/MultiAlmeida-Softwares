@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 998;
   width: 100%;
   height: clamp(3.5rem, 8vh, 4.5rem);
   background-color: var(--bg-color);
@@ -151,7 +151,7 @@
   padding: 0.5rem;
   padding-top: 0.75rem;
   margin-top: 0;
-  z-index: 999999;
+  z-index: 999;
   animation: fadeInDown 0.2s ease-out;
 }
 
@@ -246,7 +246,7 @@
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(107, 107, 107, 0.4);
   white-space: nowrap;
   position: relative;
   overflow: hidden;
@@ -266,7 +266,7 @@
 @media (hover: hover) and (pointer: fine) {
   .ctaButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 6px 20px rgba(107, 107, 107, 0.5);
   }
 
   .ctaButton:hover::before {
@@ -324,18 +324,18 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(107, 107, 107, 0.3);
 }
 
 .mobileCtaButton:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 2px 8px rgba(107, 107, 107, 0.4);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .mobileCtaButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 16px rgba(107, 107, 107, 0.4);
   }
 }
 
@@ -560,7 +560,6 @@
 }
 
 .mobileMenuButton {
-  display: none;
   background: none;
   border: none;
   color: var(--text-color);
@@ -583,17 +582,9 @@
   display: flex;
 }
 
-.menuButtonLeft {
-  justify-self: start;
-}
-
-/* Modo painel (simplifiedMode): mais encostado à esquerda */
+/* Modo painel (simplifiedMode): mantém o mesmo recuo do header padrão (igual ao PDV) */
 .headerAdmin {
-  padding: 0 clamp(0.5rem, 1.6vw, 1.25rem);
-}
-
-.menuButtonLeft {
-  margin-left: -0.25rem;
+  padding: 0 clamp(1rem, 3vw, 5rem);
 }
 
 /* No painel, o botão de tema não some no mobile */
@@ -625,7 +616,7 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   animation: fadeInDown 0.2s ease-out;
-  z-index: 1000;
+  z-index: 999;
 }
 
 @keyframes fadeInDown {
@@ -809,7 +800,7 @@
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  z-index: 1000;
+  z-index: 999;
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
@@ -1177,15 +1168,13 @@
   .headerTop {
     padding: 0 0.75rem;
   }
-  
   .logo {
     font-size: 1rem;
   }
-  
   .subtitle {
     font-size: 0.6rem;
   }
-  
+
   .logoContainer {
     gap: 0.15rem;
   }
@@ -1206,16 +1195,7 @@
 
 @media (max-width: 240px) {
   .headerTop {
-    padding-left: 0.5rem;
     padding-right: 0.5rem;
     column-gap: 0.4rem;
-  }
-
-  .logo {
-    font-size: 0.95rem;
-  }
-
-  .subtitle {
-    font-size: 0.55rem;
   }
 }

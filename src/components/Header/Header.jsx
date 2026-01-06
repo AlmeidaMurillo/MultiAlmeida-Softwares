@@ -92,20 +92,6 @@ function Header({
           simplifiedMode && onMenuToggle ? styles.headerAdmin : ""
         }`}
       >
-        {simplifiedMode && onMenuToggle ? (
-          <button
-            className={`${styles.mobileMenuButton} ${
-              menuOpen ? styles.menuOpen : ""
-            } ${styles.menuButtonAlways} ${styles.menuButtonLeft}`}
-            onClick={onMenuToggle}
-            aria-label="Alternar menu"
-            aria-expanded={menuOpen}
-            aria-controls={menuAriaControls}
-          >
-            <FaBars />
-          </button>
-        ) : null}
-
         <div className={styles.logoContainer} onClick={goHomeOrScrollTop}>
           <div className={styles.logo}>MultiAlmeida</div>
           <h2 className={styles.subtitle}>Softwares</h2>
@@ -178,7 +164,12 @@ function Header({
             </button>
             <button
               className={styles.navLink}
-              onClick={() => goToLandingSection("contact")}
+              onClick={() => {
+                const footer = document.querySelector('footer');
+                if (footer) {
+                  footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
             >
               Contato
             </button>
@@ -205,6 +196,20 @@ function Header({
             </button>
           )}
         </div>
+
+        {simplifiedMode && onMenuToggle ? (
+          <button
+            className={`${styles.mobileMenuButton} ${
+              menuOpen ? styles.menuOpen : ""
+            } ${styles.menuButtonAlways}`}
+            onClick={onMenuToggle}
+            aria-label="Alternar menu"
+            aria-expanded={menuOpen}
+            aria-controls={menuAriaControls}
+          >
+            <FaBars />
+          </button>
+        ) : null}
 
         {!simplifiedMode && (
           <button

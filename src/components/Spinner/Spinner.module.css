@@ -21,56 +21,33 @@
 .spinnerContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  gap: 0;
+  justify-self: start;
 }
 
 .logo {
-  font-size: 1.8rem;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
   font-weight: 700;
   color: var(--text-color);
   line-height: 1;
-  background: linear-gradient(135deg, var(--text-color), var(--active-bg));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: pulse 2s ease-in-out infinite;
 }
 
 .subtitle {
-  font-size: 0.85rem;
+  font-size: clamp(0.6rem, 2vw, 0.75rem);
   color: var(--text-color);
   font-weight: 500;
   opacity: 0.8;
-  animation: pulse 2s ease-in-out infinite;
+  line-height: 1;
+  margin: 0;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse {
-    0%,
-    100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 1;
-    }
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1rem;
+  }
+  .subtitle {
+    font-size: 0.6rem;
+  }
 }

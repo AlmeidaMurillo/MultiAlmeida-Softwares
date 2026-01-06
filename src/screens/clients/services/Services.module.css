@@ -494,7 +494,7 @@
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(107, 107, 107, 0.4);
 }
 
 @media (hover: hover) and (pointer: fine) {

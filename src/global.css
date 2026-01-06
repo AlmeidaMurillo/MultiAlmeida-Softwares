@@ -17,8 +17,8 @@
   --border-color: #e0e0e0;
   --shadow: rgba(0, 0, 0, 0.1);
   --shadow-hover: rgba(0, 0, 0, 0.15);
-  --accent-primary: #667eea;
-  --accent-secondary: #764ba2;
+  --accent-primary: #6b6b6b;
+  --accent-secondary: #4a4a4a;
   --card-bg: #ffffff;
   --card-hover: #fafafa;
   --input-bg: #ffffff;
@@ -48,21 +48,30 @@
   --ma-sidebar-border: var(--accent-primary);
   --ma-sidebar-inset: var(--border-color);
   --ma-sidebar-shadow: 4px 0 10px var(--shadow);
+
+  /* Variáveis específicas para Footer - Tema Claro */
+  --footer-bg: #1a1a1a;
+  --footer-text: #ffffff;
+  --footer-text-secondary: #b0b0b0;
+  --footer-border: #2a2a2a;
+  --footer-accent: #ffffff;
+  --footer-hover: #e8e8e8;
+  --footer-shadow: rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
   --bg-primary: #000000;
-  --bg-secondary: #1a1a2e;
-  --bg-tertiary: #252538;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #252525;
   --text-color: #ffffff;
   --text-secondary: #b0b0b0;
   --text-tertiary: #8a8a8a;
-  --border-color: #2a2a3e;
+  --border-color: #2a2a2a;
   --shadow: rgba(0, 0, 0, 0.3);
   --shadow-hover: rgba(0, 0, 0, 0.5);
-  --accent-primary: #667eea;
-  --accent-secondary: #764ba2;
+  --accent-primary: #8a8a8a;
+  --accent-secondary: #6b6b6b;
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-hover: rgba(255, 255, 255, 0.05);
   --input-bg: rgba(255, 255, 255, 0.05);
@@ -92,6 +101,15 @@
   --ma-sidebar-border: var(--border-color);
   --ma-sidebar-inset: rgba(255, 255, 255, 0.08);
   --ma-sidebar-shadow: 8px 0 22px rgba(0, 0, 0, 0.65);
+
+  /* Variáveis específicas para Footer - Tema Escuro */
+  --footer-bg: #0a0a0a;
+  --footer-text: #e8e8e8;
+  --footer-text-secondary: #8a8a8a;
+  --footer-border: #1a1a1a;
+  --footer-accent: #ffffff;
+  --footer-hover: #2a2a2a;
+  --footer-shadow: rgba(0, 0, 0, 0.6);
 }
 
 html {

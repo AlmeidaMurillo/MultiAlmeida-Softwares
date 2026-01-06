@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Spinner from "./components/Spinner/Spinner";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy loading dos componentes
 const LandingPage = lazy(() => import("./screens/clients/pages/LandingPage"));
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Spinner loading={loading} />
       {!loading && (
         <Suspense fallback={<Spinner loading={true} />}>

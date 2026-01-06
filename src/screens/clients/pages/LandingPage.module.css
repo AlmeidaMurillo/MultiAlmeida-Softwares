@@ -1,47 +1,32 @@
-/* Container Principal */
+/* Container principal */
 .landingContainer {
-    width: 100%;
     min-height: 100vh;
     background: var(--bg-primary);
     color: var(--text-color);
-    overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    max-width: 100vw;
 }
 
-/* Hero Section */
+/* Hero */
 .hero {
-    min-height: 100vh;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8rem 2rem 4rem;
-    position: relative;
+    min-height: 92vh;
+    padding: clamp(5rem, 10vw, 7rem) 2rem clamp(3rem, 6vw, 4.5rem);
     overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    top: 10%;
-    right: -10%;
-    animation: float 6s ease-in-out infinite;
 }
 
 .hero::after {
     content: '';
     position: absolute;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(118, 75, 162, 0.15) 0%, transparent 70%);
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent-secondary) 18%, transparent) 0%, transparent 70%);
     border-radius: 50%;
     bottom: 10%;
     left: -10%;
     animation: float 8s ease-in-out infinite;
+    pointer-events: none;
 }
 
 @keyframes float {
@@ -78,33 +63,21 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: clamp(2rem, 5vw, 4rem);
     align-items: center;
-    position: relative;
-    z-index: 1;
 }
 
 .heroText {
-    animation: slideInLeft 1s ease-out;
+    min-width: 0;
+    animation: revealUp 0.9s ease both;
 }
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 
 .heroTitle {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
+    margin: 0 0 1.2rem;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--text-color);
 }
 
@@ -138,7 +111,7 @@
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(107, 107, 107, 0.4);
     position: relative;
     overflow: hidden;
 }
@@ -159,7 +132,7 @@
 @media (hover: hover) and (pointer: fine) {
     .primaryBtn:hover {
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 8px 30px rgba(107, 107, 107, 0.6);
     }
 
     .primaryBtn:hover::before {
@@ -212,7 +185,7 @@
     .secondaryBtn:hover {
         color: white;
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 20px rgba(107, 107, 107, 0.4);
     }
 
     .secondaryBtn:hover::before {
@@ -311,9 +284,242 @@
     border-bottom: 1px solid var(--border-color);
 }
 
+:global([data-theme="dark"]) .saasSection {
+    background: #000;
+    --text-color: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #8a8a8a;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --shadow: rgba(0, 0, 0, 0.65);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-hover: rgba(255, 255, 255, 0.05);
+    --hover-bg: rgba(255, 255, 255, 0.05);
+}
+
 .customServicesSection {
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
+}
+
+/* === SaaS Cards (tema-aware) === */
+.saasGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: clamp(0.85rem, 1.6vw, 1.35rem);
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.saasCard {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 22px;
+    box-shadow: 0 10px 34px var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    animation: saasPopIn 0.7s ease both;
+}
+
+.saasCard::before {
+    content: '';
+    position: absolute;
+    inset: -40% -40% auto auto;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent-primary) 30%, transparent) 0%, transparent 65%);
+    opacity: 0.35;
+    pointer-events: none;
+    transform: translateZ(0);
+}
+
+@keyframes saasPopIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .saasCard:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 18px 54px var(--shadow-hover);
+        border-color: var(--accent-primary);
+        background: var(--card-hover);
+    }
+}
+
+.saasCardImageArea {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.saasCardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: none;
+    transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .saasCard:hover .saasCardImage {
+        transform: scale(1.02);
+        filter: contrast(1.02) saturate(1.02);
+    }
+}
+
+.saasCardLogoBox {
+    padding: 0.95rem 1.1rem 0.85rem;
+    background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--shadow) 65%, transparent);
+    backdrop-filter: blur(10px);
+}
+
+.saasCardIcon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--hover-bg) 80%, transparent);
+    border: 1px solid var(--border-color);
+    color: var(--accent-primary);
+    box-shadow: 0 10px 22px var(--shadow);
+    animation: saasFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes saasFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.saasCardContent {
+    padding: 1.25rem 1.1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.saasCardTitle {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 900;
+    color: var(--text-color);
+    letter-spacing: -0.02em;
+}
+
+.saasCardDesc {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-weight: 600;
+}
+
+.saasCardFeatures {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    max-height: 7.25rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.saasCardFeatures::-webkit-scrollbar {
+    width: 8px;
+}
+
+.saasCardFeatures::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.saasCardFeatures::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--border-color) 75%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.saasCardFeatureItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 0.88rem;
+    font-weight: 750;
+    line-height: 1.2;
+    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.saasCardFeatureIcon {
+    color: var(--accent-primary);
+    display: inline-flex;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .saasCardFeatureItem:hover {
+        transform: translateY(-0.2px);
+        border-color: var(--accent-primary);
+        background: var(--card-hover);
+    }
+}
+
+.saasCardActions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+    border-top: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+}
+
+/* Ajustes para reusar primaryBtn/secondaryBtn dentro do card */
+.saasCardCtaPrimary,
+.saasCardCtaSecondary {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+@media (max-width: 420px) {
+    .saasCardActions {
+        flex-direction: column;
+    }
+
+    .saasCardCtaPrimary,
+    .saasCardCtaSecondary {
+        width: 100%;
+    }
 }
 
 .sectionContainer {
@@ -415,7 +621,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(107, 107, 107, 0.05) 0%, rgba(74, 74, 74, 0.05) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
@@ -556,39 +762,35 @@
 .planShowcaseGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: 1.25rem;
+    gap: clamp(0.95rem, 1.8vw, 1.35rem);
 }
 
 .planCard {
-    background: linear-gradient(135deg, var(--sidebar-bg), rgba(0,0,0,0.3));
+    background: var(--card-bg);
     padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border-radius: 22px;
+    box-shadow: 0 10px 34px var(--shadow);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
     position: relative;
     overflow: hidden;
     min-width: 0;
+    height: 100%;
 }
 
 .planCard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-color), var(--button-hover));
-    opacity: 0.7;
+    display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .planCard:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        transform: translateY(-10px);
+        box-shadow: 0 18px 54px var(--shadow-hover);
+        border-color: var(--accent-primary);
+        background: var(--card-hover);
     }
 }
 
@@ -682,23 +884,68 @@
     list-style: none;
     padding: 0;
     margin: 0 0 1rem;
+    display: grid;
+    gap: 0.6rem;
+    max-height: 11.5rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.planCardHighlights::-webkit-scrollbar {
+    width: 8px;
+}
+
+.planCardHighlights::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.planCardHighlights::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--border-color) 75%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 .planCardHighlights li {
-    padding: 0.35rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 14px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    position: relative;
-    padding-left: 1.25rem;
     font-size: 0.95rem;
+    font-weight: 700;
     word-break: break-word;
 }
 
 .planCardHighlights li::before {
     content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-    font-weight: 700;
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--accent-primary);
+    font-weight: 900;
+    flex: 0 0 auto;
+    margin-top: 0.05rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .planCardHighlights li:hover {
+        transform: translateY(-0.2px);
+        border-color: var(--accent-primary);
+        background: var(--card-hover);
+    }
 }
 
 .planCardActions {
@@ -711,18 +958,9 @@
 }
 
 .planCardPrimaryBtn {
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem 0.9rem;
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
     font-weight: 900;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.planCardPrimaryBtn:active {
-    transform: scale(0.99);
 }
 
 .planCardSecondaryBtn {
@@ -1034,7 +1272,7 @@
 /* About Section */
 .about {
     padding: clamp(3rem, 8vw, 6rem) 2rem;
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
     position: relative;
     overflow: hidden;
 }
@@ -1044,7 +1282,7 @@
     position: absolute;
     width: 450px;
     height: 450px;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(107, 107, 107, 0.12) 0%, transparent 70%);
     border-radius: 50%;
     top: -10%;
     right: -15%;
@@ -1057,7 +1295,7 @@
     position: absolute;
     width: 380px;
     height: 380px;
-    background: radial-gradient(circle, rgba(118, 75, 162, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(74, 74, 74, 0.12) 0%, transparent 70%);
     border-radius: 50%;
     bottom: -15%;
     left: -15%;
@@ -1186,7 +1424,7 @@
     content: '';
     position: absolute;
     inset: -2px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+    background: linear-gradient(135deg, rgba(107, 107, 107, 0.25) 0%, rgba(74, 74, 74, 0.25) 100%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -1197,7 +1435,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.06) 0%, rgba(118, 75, 162, 0.06) 100%);
+    background: linear-gradient(135deg, rgba(107, 107, 107, 0.06) 0%, rgba(74, 74, 74, 0.06) 100%);
     opacity: 0.8;
     pointer-events: none;
     z-index: -1;
@@ -1206,7 +1444,7 @@
 @media (hover: hover) and (pointer: fine) {
     .stat:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 8px 20px rgba(107, 107, 107, 0.2);
         border-color: var(--accent-primary);
     }
 
@@ -1219,7 +1457,7 @@
 @media (hover: none) and (pointer: coarse) {
     .stat:active {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 8px 20px rgba(107, 107, 107, 0.2);
         border-color: var(--accent-primary);
     }
 
@@ -1277,7 +1515,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.06) 0%, rgba(118, 75, 162, 0.06) 100%);
+    background: linear-gradient(135deg, rgba(107, 107, 107, 0.06) 0%, rgba(74, 74, 74, 0.06) 100%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -1376,7 +1614,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.10) 0%, rgba(118, 75, 162, 0.10) 100%);
+    background: linear-gradient(135deg, rgba(107, 107, 107, 0.10) 0%, rgba(74, 74, 74, 0.10) 100%);
     opacity: 0;
     transition: opacity 0.25s ease;
     pointer-events: none;
@@ -1463,14 +1701,14 @@
 @media (hover: hover) and (pointer: fine) {
     .contactItem:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 10px 30px rgba(107, 107, 107, 0.2);
     }
 }
 
 @media (hover: none) and (pointer: coarse) {
     .contactItem:active {
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 10px 30px rgba(107, 107, 107, 0.2);
     }
 }
 
