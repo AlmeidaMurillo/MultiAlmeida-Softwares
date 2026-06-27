@@ -1,16 +1,42 @@
-# React + Vite
+# MultiAlmeida Softwares - Frontend Only
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação React/Vite preparada para hospedagem apenas como frontend estático.
 
-Currently, two official plugins are available:
+## Como rodar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## Build para hospedagem
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run build
+```
 
-## Expanding the ESLint configuration
+O resultado fica em `dist/` e pode ser hospedado em Vercel, Netlify, Hostinger, GitHub Pages ou qualquer servidor estático.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Painel administrativo local
+
+O fluxo administrativo funciona sem backend. Orçamentos, respostas, status e sessão são salvos no `localStorage` do navegador.
+
+Acesso local:
+
+```text
+E-mail: admin@multialmeida.com
+Senha: admin123
+```
+
+Rotas principais:
+
+- `/admin/login`: login local.
+- `/admin/dashboard`: cards, funil, últimos orçamentos e ações locais.
+- `/admin/orcamentos/novos`: solicitações recebidas.
+- `/admin/orcamentos/aguardando`: respostas enviadas e pendentes de retorno.
+- `/admin/orcamentos/aceitos`: propostas aprovadas.
+- `/admin/orcamentos/recusados`: propostas recusadas ou pausadas.
+
+## Observação importante
+
+Como não existe backend, autenticação e dados não são segurança real de servidor. Esse modelo é ideal para portfólio, demonstração e uso pessoal em um único navegador. Para produção com dados sensíveis, o próximo passo seria integrar uma API, banco de dados e autenticação segura.

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Spinner from "./components/Spinner/Spinner";
 import ScrollToTop from "./components/ScrollToTop";
+import { isAdminAuthenticated } from "./data/auth";
 
 // Lazy loading dos componentes
 const LandingPage = lazy(() => import("./screens/clients/pages/LandingPage"));
@@ -16,6 +17,14 @@ const OrcamentosDetalhes = lazy(() => import("./screens/admin/quotes/QuotesDetai
 const PrivacyPolicy = lazy(() => import("./screens/universal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./screens/universal/TermsOfService"));
 const ServiceDetails = lazy(() => import("./screens/clients/services/ServiceDetails"));
+
+function ProtectedAdminRoute({ children }) {
+  if (!isAdminAuthenticated()) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return children;
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -39,7 +48,9 @@ function App() {
             <Route
               path="/admin/dashboard"
               element={
-                <Dashboard />
+                <ProtectedAdminRoute>
+                  <Dashboard />
+                </ProtectedAdminRoute>
               }
             />
             <Route
@@ -51,49 +62,65 @@ function App() {
             <Route
               path="/admin/orcamentos/novos"
               element={
-                <OrcamentosNovos />
+                <ProtectedAdminRoute>
+                  <OrcamentosNovos />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/novos/detalhes/:id"
               element={
-                <OrcamentosDetalhes />
+                <ProtectedAdminRoute>
+                  <OrcamentosDetalhes />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/aguardando"
               element={
-                <OrcamentosAguardando />
+                <ProtectedAdminRoute>
+                  <OrcamentosAguardando />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/aguardando/detalhes/:id"
               element={
-                <OrcamentosDetalhes />
+                <ProtectedAdminRoute>
+                  <OrcamentosDetalhes />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/aceitos"
               element={
-                <OrcamentosAceitos />
+                <ProtectedAdminRoute>
+                  <OrcamentosAceitos />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/aceitos/detalhes/:id"
               element={
-                <OrcamentosDetalhes />
+                <ProtectedAdminRoute>
+                  <OrcamentosDetalhes />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/recusados"
               element={
-                <OrcamentosRecusados />
+                <ProtectedAdminRoute>
+                  <OrcamentosRecusados />
+                </ProtectedAdminRoute>
               }
             />
             <Route
               path="/admin/orcamentos/recusados/detalhes/:id"
               element={
-                <OrcamentosDetalhes />
+                <ProtectedAdminRoute>
+                  <OrcamentosDetalhes />
+                </ProtectedAdminRoute>
               }
             />
             <Route path="/politica-privacidade" element={<PrivacyPolicy />} />

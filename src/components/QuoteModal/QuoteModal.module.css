@@ -35,7 +35,7 @@
 .modalContent {
     position: relative;
     background: var(--bg-primary);
-    border-radius: 24px;
+    border-radius: 8px;
     width: 100%;
     max-width: 960px;
     max-height: 94vh;
@@ -76,7 +76,7 @@
     border: 1px solid var(--border-color);
     width: 44px;
     height: 44px;
-    border-radius: 12px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,7 +175,7 @@
     height: 44px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
-    border-radius: 12px;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -196,7 +196,7 @@
     font-size: clamp(1rem, 2.2vw, 1.25rem);
     font-weight: 700;
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     line-height: 1.2;
     color: white;
 }
@@ -269,7 +269,7 @@
     font-size: 14px;
     font-weight: 700;
     color: var(--text-color);
-    letter-spacing: 0.02em;
+    letter-spacing: 0;
     text-transform: uppercase;
     font-size: 11px;
     opacity: 0.85;
@@ -287,7 +287,7 @@
     padding: 13px 16px;
     font-size: 15px;
     border: 2px solid var(--input-border);
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--input-bg);
     color: var(--text-color);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -374,12 +374,29 @@
     background: var(--bg-primary);
 }
 
+.successMessage {
+    margin-bottom: 1rem;
+    border: 1px solid rgba(22, 163, 74, 0.35);
+    border-radius: 8px;
+    background: rgba(22, 163, 74, 0.08);
+    color: #15803d;
+    font-size: 0.92rem;
+    font-weight: 800;
+    line-height: 1.45;
+    padding: 0.75rem 0.85rem;
+}
+
+[data-theme="dark"] .successMessage {
+    color: #86efac;
+    background: rgba(22, 163, 74, 0.12);
+}
+
 .cancelButton,
 .submitButton {
     padding: 14px 32px;
     font-size: 15px;
     font-weight: 700;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
@@ -387,7 +404,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0;
     text-transform: uppercase;
     font-size: 13px;
 }
@@ -470,7 +487,7 @@
     .modalContent {
         max-width: 100%;
         max-height: 92vh;
-        border-radius: 24px;
+        border-radius: 8px;
     }
 
     .modalHeader {
@@ -558,7 +575,7 @@
     }
 
     .modalContent {
-        border-radius: 20px;
+        border-radius: 8px;
     }
 
     .modalHeader {
@@ -572,7 +589,7 @@
     .iconBadge {
         width: 38px;
         height: 38px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
 
     .iconBadge svg {
@@ -631,7 +648,7 @@
     .formTextarea {
         padding: 12px 14px;
         font-size: 14px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
 
     .formTextarea {
@@ -655,7 +672,7 @@
         right: 14px;
         width: 36px;
         height: 36px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
 
     .closeButton svg {
@@ -667,7 +684,7 @@
 /* Responsive - Mobile extra pequeno */
 @media (max-width: 320px) {
     .modalContent {
-        border-radius: 18px;
+        border-radius: 8px;
         max-height: 95vh;
     }
 

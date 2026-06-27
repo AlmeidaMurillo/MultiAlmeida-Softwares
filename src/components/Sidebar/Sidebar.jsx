@@ -5,6 +5,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import styles from "./Sidebar.module.css";
+import { logoutAdmin } from "../../data/auth";
 
 const MenuItem = memo(function MenuItem({
   icon,
@@ -160,6 +161,7 @@ function Sidebar({ children }) {
                     }
 
                     if (action === 'logout') {
+                      logoutAdmin();
                       navigate('/admin/login', { replace: true });
                     }
                   }}

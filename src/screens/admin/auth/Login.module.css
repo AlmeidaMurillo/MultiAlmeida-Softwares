@@ -33,16 +33,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
     text-align: center;
     width: 100%;
+}
+
+.copy {
+    display: grid;
+    justify-items: center;
+    gap: 0.65rem;
+    max-width: 680px;
+}
+
+.kicker {
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    background: var(--card-bg);
+    box-shadow: 0 8px 20px var(--shadow);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .heroTitle {
     font-size: clamp(1.75rem, 5vw, 3rem);
     font-weight: 800;
     line-height: 1.15;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     -webkit-background-clip: text;
     background-clip: text;
@@ -59,12 +78,32 @@
 .loginForm {
     background-color: var(--card-bg);
     padding: 2rem;
-    border-radius: 16px;
+    border-radius: 8px;
     box-shadow: 0 10px 30px var(--shadow);
     max-width: 420px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid var(--border-color);
+    display: grid;
+    gap: 1.25rem;
+}
+
+.formHeader {
+    display: grid;
+    gap: 0.25rem;
+    text-align: left;
+}
+
+.formTitle {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.formText {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.45;
 }
 
 .form {
@@ -93,7 +132,7 @@
     width: 100%;
     padding: 0.8rem 1rem 0.8rem 3rem;
     border: 1px solid var(--input-border);
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     background-color: var(--input-bg);
@@ -133,7 +172,7 @@
     background: transparent;
     border: none;
     padding: 0.35rem;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .eyeIcon:disabled {
@@ -156,7 +195,7 @@
 .button {
     padding: 0.85rem 1.5rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     color: #fff;
     font-weight: 800;
@@ -167,6 +206,51 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 22px var(--shadow);
+}
+
+.demoCard {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-align: left;
+    min-width: 0;
+}
+
+.demoCard strong {
+    display: block;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.demoCard p {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.demoButton {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--hover-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 800;
+    padding: 0.6rem 0.75rem;
+    white-space: nowrap;
+}
+
+.demoButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.demoButton:active {
+    transform: translateY(1px);
 }
 
 .button:active:not(:disabled) {
@@ -244,6 +328,16 @@
         padding: 1.5rem 1rem;
     }
 
+    .formHeader,
+    .demoCard {
+        text-align: center;
+    }
+
+    .demoCard {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
     .input {
         font-size: 0.95rem;
     }
@@ -298,7 +392,7 @@
 
     .loginForm {
         padding: 1rem 0.75rem;
-        border-radius: 12px;
+        border-radius: 8px;
     }
 
     .inputIcon {

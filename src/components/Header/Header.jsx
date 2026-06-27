@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
+import { FaMoon, FaSun, FaBars, FaTimes, FaLock } from "react-icons/fa";
 import styles from "./Header.module.css";
 import MobileSidebar from "../Sidebar/MobileSidebar";
 
@@ -191,9 +191,15 @@ function Header({
           </button>
 
           {!simplifiedMode && (
-            <button className={styles.ctaButton} onClick={onOpenQuote}>
-              Solicitar Orçamento
-            </button>
+            <>
+              <button className={styles.painelButton} onClick={() => navigate("/admin/login")}>
+                <FaLock aria-hidden="true" />
+                Painel
+              </button>
+              <button className={styles.ctaButton} onClick={onOpenQuote}>
+                Solicitar Orçamento
+              </button>
+            </>
           )}
         </div>
 

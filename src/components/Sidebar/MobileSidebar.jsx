@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaMoon, FaSun, FaTimes } from "react-icons/fa";
+import { FaLock, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 import styles from "./MobileSidebar.module.css";
 
 function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
@@ -105,6 +105,15 @@ function MobileSidebar({ isOpen, onClose, theme, toggleTheme, onOpenQuote }) {
 
           <div className={styles.menuSection}>
             <span className={styles.menuSectionTitle}>Configurações</span>
+            <button
+              className={styles.mobileSidebarItem}
+              onClick={() => handleNavigate("/admin/login")}
+            >
+              <span className={styles.itemIcon}>
+                <FaLock />
+              </span>
+              <span>Painel Administrativo</span>
+            </button>
             <button 
               className={styles.mobileSidebarItem} 
               onClick={toggleTheme}

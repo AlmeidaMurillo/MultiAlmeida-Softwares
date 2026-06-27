@@ -1,73 +1,26 @@
 import { useState } from 'react';
+import { Building2, Clock, FileText, Mail, Phone, Send, User, Wallet, Wrench, X } from 'lucide-react';
 import styles from './QuoteModal.module.css';
+import { createQuote } from '../../data/quoteStore';
 
-const STORAGE_KEY = "ma_quotes_v1";
-
-function safeJsonParse(value, fallback) {
-    try {
-        return JSON.parse(value);
-    } catch {
-        return fallback;
-    }
-}
-
-function newId() {
-    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-        return crypto.randomUUID();
-    }
-    return `${Date.now()}_${Math.random().toString(16).slice(2)}`;
-}
-
-function loadAll() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const data = safeJsonParse(raw, null);
-    if (!data || typeof data !== "object" || !Array.isArray(data.items)) {
-        return { version: 1, items: [] };
-    }
-    return data;
-}
-
-function saveAll(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-function createQuote(payload) {
-    const data = loadAll();
-
-    const quote = {
-        id: newId(),
-        createdAt: new Date().toISOString(),
-        status: "novo",
-        nome: payload.nome || "",
-        email: payload.email || "",
-        telefone: payload.telefone || "",
-        empresa: payload.empresa || "",
-        tipoServico: payload.tipoServico || "",
-        descricao: payload.descricao || "",
-        orcamento: payload.orcamento || "",
-        prazo: payload.prazo || "",
-        responses: [],
-    };
-
-    data.items.unshift(quote);
-    saveAll(data);
-    return quote;
-}
+const INITIAL_FORM = {
+    nome: '',
+    email: '',
+    telefone: '',
+    empresa: '',
+    tipoServico: '',
+    descricao: '',
+    orcamento: '',
+    prazo: ''
+};
 
 function QuoteModal({ isOpen, onClose }) {
-    const [formData, setFormData] = useState({
-        nome: '',
-        email: '',
-        telefone: '',
-        empresa: '',
-        tipoServico: '',
-        descricao: '',
-        orcamento: '',
-        prazo: ''
-    });
+    const [formData, setFormData] = useState(INITIAL_FORM);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        setSuccessMessage('');
         setFormData(prev => ({
             ...prev,
             [name]: value
@@ -77,19 +30,13 @@ function QuoteModal({ isOpen, onClose }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         createQuote(formData);
-        alert('Solicitação enviada com sucesso! Entraremos em contato em breve.');
-        onClose();
-        // Limpar formulário
-        setFormData({
-            nome: '',
-            email: '',
-            telefone: '',
-            empresa: '',
-            tipoServico: '',
-            descricao: '',
-            orcamento: '',
-            prazo: ''
-        });
+        setSuccessMessage('Solicitação salva no painel local com sucesso.');
+        setFormData(INITIAL_FORM);
+
+        window.setTimeout(() => {
+            setSuccessMessage('');
+            onClose();
+        }, 900);
     };
 
     if (!isOpen) return null;
@@ -98,10 +45,7 @@ function QuoteModal({ isOpen, onClose }) {
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <button className={styles.closeButton} onClick={onClose} aria-label="Fechar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
+                    <X size={24} aria-hidden="true" />
                 </button>
 
                 <div className={styles.modalHeader}>
@@ -112,17 +56,11 @@ function QuoteModal({ isOpen, onClose }) {
                         </div>
                         <div className={styles.titleSection}>
                             <div className={styles.iconBadge}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                                    <polyline points="10 9 9 9 8 9"></polyline>
-                                </svg>
+                                <FileText size={20} aria-hidden="true" />
                             </div>
                             <div className={styles.titleWrapper}>
                                 <h2 className={styles.modalTitle}>Solicitar Orçamento</h2>
-                                <p className={styles.titleSubtext}>Preencha o formulário e entraremos em contato</p>
+                                <p className={styles.titleSubtext}>Preencha os dados do projeto para análise comercial</p>
                             </div>
                         </div>
                     </div>
@@ -133,7 +71,7 @@ function QuoteModal({ isOpen, onClose }) {
                         <div className={styles.formCol}>
                             <div className={styles.formGroup}>
                                 <label htmlFor="nome" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>👤</span>
+                                    <User size={16} aria-hidden="true" />
                                     Nome Completo *
                                 </label>
                                 <input
@@ -150,7 +88,7 @@ function QuoteModal({ isOpen, onClose }) {
 
                             <div className={styles.formGroup}>
                                 <label htmlFor="email" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>📧</span>
+                                    <Mail size={16} aria-hidden="true" />
                                     E-mail *
                                 </label>
                                 <input
@@ -167,7 +105,7 @@ function QuoteModal({ isOpen, onClose }) {
 
                             <div className={styles.formGroup}>
                                 <label htmlFor="telefone" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>📱</span>
+                                    <Phone size={16} aria-hidden="true" />
                                     WhatsApp *
                                 </label>
                                 <input
@@ -184,7 +122,7 @@ function QuoteModal({ isOpen, onClose }) {
 
                             <div className={styles.formGroup}>
                                 <label htmlFor="empresa" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>🏢</span>
+                                    <Building2 size={16} aria-hidden="true" />
                                     Empresa
                                 </label>
                                 <input
@@ -202,7 +140,7 @@ function QuoteModal({ isOpen, onClose }) {
                         <div className={styles.formCol}>
                             <div className={styles.formGroup}>
                                 <label htmlFor="tipoServico" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>⚙️</span>
+                                    <Wrench size={16} aria-hidden="true" />
                                     Tipo de Serviço *
                                 </label>
                                 <select
@@ -214,16 +152,15 @@ function QuoteModal({ isOpen, onClose }) {
                                     required
                                 >
                                     <option value="">Selecione um serviço</option>
-                                    <option value="site">🌐 Site Institucional</option>
-                                    <option value="sistema">💻 Sistema Personalizado</option>
-                                    <option value="manutencao">🔧 Manutenção & Suporte</option>
-                                    
+                                    <option value="site">Site Institucional</option>
+                                    <option value="sistema">Sistema Personalizado</option>
+                                    <option value="manutencao">Manutenção & Suporte</option>
                                 </select>
                             </div>
 
                             <div className={styles.formGroup}>
                                 <label htmlFor="orcamento" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>💰</span>
+                                    <Wallet size={16} aria-hidden="true" />
                                     Orçamento
                                 </label>
                                 <select
@@ -245,7 +182,7 @@ function QuoteModal({ isOpen, onClose }) {
 
                             <div className={styles.formGroup}>
                                 <label htmlFor="prazo" className={styles.formLabel}>
-                                    <span className={styles.labelIcon}>⏱️</span>
+                                    <Clock size={16} aria-hidden="true" />
                                     Prazo
                                 </label>
                                 <select
@@ -256,10 +193,10 @@ function QuoteModal({ isOpen, onClose }) {
                                     className={styles.formSelect}
                                 >
                                     <option value="">Selecione...</option>
-                                    <option value="urgente">⚡ Urgente (Até 1 mês)</option>
-                                    <option value="1-3meses">📅 1-3 meses</option>
-                                    <option value="3-6meses">📆 3-6 meses</option>
-                                    <option value="flexivel">🔄 Flexível</option>
+                                    <option value="urgente">Urgente, até 1 mês</option>
+                                    <option value="1-3meses">1 a 3 meses</option>
+                                    <option value="3-6meses">3 a 6 meses</option>
+                                    <option value="flexivel">Flexível</option>
                                 </select>
                             </div>
                         </div>
@@ -267,7 +204,7 @@ function QuoteModal({ isOpen, onClose }) {
 
                     <div className={styles.formGroupFull}>
                         <label htmlFor="descricao" className={styles.formLabel}>
-                            <span className={styles.labelIcon}>📝</span>
+                            <FileText size={16} aria-hidden="true" />
                             Descrição do Projeto *
                         </label>
                         <textarea
@@ -278,9 +215,13 @@ function QuoteModal({ isOpen, onClose }) {
                             className={styles.formTextarea}
                             required
                             rows="6"
-                            placeholder="Descreva detalhadamente seu projeto, objetivos e funcionalidades desejadas..."
+                            placeholder="Descreva seu projeto, objetivos, funcionalidades desejadas e contexto do negócio..."
                         ></textarea>
                     </div>
+
+                    {successMessage && (
+                        <p className={styles.successMessage} role="status">{successMessage}</p>
+                    )}
 
                     <div className={styles.formActions}>
                         <button type="button" className={styles.cancelButton} onClick={onClose}>
@@ -288,10 +229,7 @@ function QuoteModal({ isOpen, onClose }) {
                         </button>
                         <button type="submit" className={styles.submitButton}>
                             <span>Enviar Solicitação</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
+                            <Send size={20} aria-hidden="true" />
                         </button>
                     </div>
                 </form>
